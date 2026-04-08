@@ -5,18 +5,12 @@
 <meta charset="utf-8">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body{
   margin:0;
+  font-family:sans-serif;
 }
 
-html, body {
+html, body{
   margin:0;
   padding:0;
   height:100%;
@@ -87,8 +81,9 @@ html, body {
 .sidebar{
   width:270px;
   background-color:#170a6b40;
-  padding-top:20px;
+  padding-top:32px;
   position:relative;
+  margin-top: 6px;
 }
 
 .sidebar a {
@@ -107,14 +102,10 @@ html, body {
   background:#335077;
 }
 
-.sidebar a.active {
-  background:#335077;
-}
-
 /* divider */
 .divider {
   border-top:1px solid #475569;
-  margin:420px 10px;
+  margin:390px 10px;
 }
 
 /* logout bawah */
@@ -128,7 +119,6 @@ html, body {
 .logout a {
   color:#f87171;
   font-weight:bold;
-  text-decoration:none;
 }
 
 /* CONTENT */
@@ -350,8 +340,8 @@ tbody tr:last-child td {
       <a href="{{ route('kepala.anggota') }}">Data Anggota</a>
       <a href="{{ route('kepala.petugas') }}">Data Petugas</a>
       <a href="{{ route('kepala.buku') }}">Data Buku</a>
-      <a href="{{ route('kepala.laporan') }}" class="active">Laporan</a>
-      <a href="{{ route('biodata') }}">Biodata</a>
+      <a href="{{ route('kepala.laporan') }}">Laporan</a>
+      <a href="{{ route('kepala.biodata') }}" class="active">Biodata</a>
 
       <div class="divider"></div>
 

@@ -84,8 +84,9 @@
         .sidebar {
             width: 270px;
             background-color: #170a6b40;
-            padding-top: 20px;
+            padding-top: 32px;
             position: relative;
+            margin-top: 6px;
         }
 
         .sidebar a {
@@ -104,10 +105,14 @@
             background: #335077;
         }
 
+        .sidebar a.active {
+            background: #3b82f6;
+        }
+
         /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 460px 10px;
+            margin: 388px 2px;
         }
 
         /* logout bawah */
@@ -273,7 +278,7 @@
 
         <!-- MAIN -->
         <div class="main">
-
+      
             <!-- SIDEBAR -->
             <div class="sidebar">
                 <a href="{{ route('petugas.dashboard') }}">Dashboard</a>
@@ -282,9 +287,8 @@
                 <a href="{{ route('petugas.anggota') }}">Data Anggota</a>
                 <a href="{{ route('petugas.peminjaman') }}">Peminjaman</a>
                 <a href="{{ route('petugas.pengembalian') }}">Pengembalian</a>
-
-
                 <div class="divider"></div>
+
 
                 <div class="logout">
                     <a href="/logout">Logout</a>

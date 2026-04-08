@@ -4,8 +4,9 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <title>Edit Buku</title>
+
     <style>
+
         body {
             margin: 0;
             font-family: sans-serif;
@@ -19,11 +20,13 @@
             overflow: hidden;
         }
 
+        /* BACKGROUND */
         .background {
             background-color: #051031;
             min-height: 100vh;
         }
 
+        /* HEADER */
         .header {
             width: 100%;
             height: 100px;
@@ -38,10 +41,12 @@
             padding: 0 20px;
         }
 
+        /* KIRI (LOGO + JUDUL) */
         .left-box {
             display: flex;
             align-items: center;
             gap: 5px;
+            /* 🔥 mepet ke logo */
         }
 
         .logo img {
@@ -56,6 +61,7 @@
             margin: 0;
         }
 
+        /* USER */
         .user-box {
             display: flex;
             align-items: center;
@@ -69,16 +75,19 @@
             border-radius: 50%;
         }
 
+        /* LAYOUT */
         .main {
             display: flex;
             height: calc(100vh - 100px);
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 270px;
             background-color: #170a6b40;
-            padding-top: 20px;
+            padding-top: 32px;
             position: relative;
+            margin-top: 6px;
         }
 
         .sidebar a {
@@ -97,11 +106,17 @@
             background: #335077;
         }
 
-        .divider {
-            border-top: 1px solid #475569;
-            margin: 460px 10px;
+        .sidebar a.active {
+            background: #3b82f6;
         }
 
+        /* divider */
+        .divider {
+            border-top: 1px solid #475569;
+            margin: 388px 2px;
+        }
+
+        /* logout bawah */
         .logout {
             position: absolute;
             bottom: 2px;
@@ -114,27 +129,42 @@
             font-weight: bold;
         }
 
+        /* CONTENT */
         .content {
             flex: 1;
             padding: 30px;
             color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
+        /* FORM CARD */
         .form-card {
-            max-width: 600px;
-            margin: auto;
+            width: 100%;
+            max-width: 1000px;
             background: #1e293b;
-            padding: 25px;
-            border-radius: 12px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
 
-        .form-group {
-            margin-bottom: 12px;
+        .form-card h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #3b82f6;
+        }
+
+        /* FORM GRID */
+        .form-card form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
         .form-group label {
-            display: block;
-            margin-bottom: 6px;
+            font-size: 13px;
+            color: #cbd5e1;
         }
 
         .form-group input,
@@ -142,12 +172,25 @@
         .form-group textarea {
             width: 100%;
             padding: 10px;
+            margin-top: 5px;
             border: none;
             border-radius: 8px;
             background: #334155;
             color: white;
         }
 
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border: 1px solid #3b82f6;
+        }
+
+        /* FULL WIDTH */
+        .full {
+            grid-column: span 2;
+        }
+
+        /* BUTTON */
         .btn {
             width: 100%;
             padding: 12px;
@@ -158,77 +201,131 @@
             font-weight: bold;
             cursor: pointer;
         }
+
+        .btn:hover {
+            background: #2563eb;
+        }
+
+        * {
+    box-sizing: border-box;
+}
+
     </style>
 </head>
 
 <body>
     <div class="background">
+
+        <!-- HEADER -->
         <div class="header">
             <div class="header-content">
                 <div class="left-box">
-                    <div class="logo"><img src="{{ asset('images/logoperpus.png') }}" alt="Logo"></div>
+                    <div class="logo">
+                        <img src="{{ asset('images/logoperpus.png') }}">
+                    </div>
                     <h3 class="judul">Sistem<br>Perpustakaan<br>Digital</h3>
                 </div>
-                <div class="user-box"><img src="{{ asset('images/profil.png') }}"
-                        alt="petugas"><span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span></div>
-            </div>
-        </div>
-        <div class="main">
-            <div class="sidebar"><a href="{{ route('petugas.dashboard') }}">Dashboard</a><a
-                    href="{{ route('biodata') }}">Biodata</a><a href="{{ route('petugas.buku') }}">Data Buku</a><a
-                    href="{{ route('petugas.anggota') }}">Data Anggota</a><a
-                    href="{{ route('petugas.peminjaman') }}">Peminjaman</a><a
-                    href="{{ route('petugas.pengembalian') }}">Pengembalian</a>
-                <div class="divider"></div>
-                <div class="logout"><a href="/logout">Logout</a></div>
-            </div>
-            <div class="content">
-                <div class="form-card">
-                    <h2>Edit Buku</h2>
-                    @if ($errors->any())
-                        <div style="color:#f87171;">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    <form action="{{ route('petugas.buku.update', $buku->id) }}" method="POST">
-                        @csrf @method('PUT')<div class="form-group"><label>Judul</label><input type="text"
-                                name="title" value="{{ old('title', $buku->title) }}" required></div>
-                        <div class="form-group"><label>Penulis</label><input type="text" name="author"
-                                value="{{ old('author', $buku->author) }}" required></div>
-                        <div class="form-group"><label>Kategori</label><select name="category_id">
-                                <option value="">-- Pilih Kategori --</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}"
-                                        {{ old('category_id', $buku->category_id) == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}</option>
-                                @endforeach
-                            </select></div>
-                        <div class="form-group"><label>Penerbit</label><input type="text" name="penerbit"
-                                value="{{ old('penerbit', $buku->penerbit) }}"></div>
-                        <div class="form-group"><label>Tahun</label><input type="text" name="tahun"
-                                value="{{ old('tahun', $buku->tahun) }}"></div>
-                        <div class="form-group"><label>Deskripsi</label>
-                            <textarea name="deskripsi">{{ old('deskripsi', $buku->deskripsi) }}</textarea>
-                        </div>
-                        <div class="form-group"><label>Cover (nama file)</label><input type="text" name="cover"
-                                value="{{ old('cover', $buku->cover) }}"></div>
-                        <div class="form-group"><label>Status</label><select name="status" required>
-                                <option value="tersedia"
-                                    {{ old('status', $buku->status) == 'tersedia' ? 'selected' : '' }}>tersedia
-                                </option>
-                                <option value="dipinjam"
-                                    {{ old('status', $buku->status) == 'dipinjam' ? 'selected' : '' }}>dipinjam
-                                </option>
-                            </select></div><button type="submit" class="btn">Perbarui Buku</button>
-                    </form>
+
+                <div class="user-box">
+                    <img src="{{ asset('images/profil.png') }}">
+                    <span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
                 </div>
             </div>
         </div>
-    </div>
-</body>
 
-</html>
+        <div class="main">
+
+            <!-- SIDEBAR -->
+            <div class="sidebar">
+                <a href="{{ route('petugas.dashboard') }}">Dashboard</a>
+                <a href="{{ route('biodata') }}">Biodata</a>
+                <a href="{{ route('petugas.buku') }}">Data Buku</a>
+                <a href="{{ route('petugas.anggota') }}">Data Anggota</a>
+                <a href="{{ route('petugas.peminjaman') }}">Peminjaman</a>
+                <a href="{{ route('petugas.pengembalian') }}">Pengembalian</a>
+
+                <div class="divider"></div>
+
+                <div class="logout">
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+
+           <!-- CONTENT -->
+<div class="content">
+    <div class="form-card">
+
+        <h2>Edit Buku</h2>
+
+        @if ($errors->any())
+            <div style="color:#f87171;" class="full">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('petugas.buku.update', $buku->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+            <div class="form-group">
+                <label>Judul</label>
+                <input type="text" name="title" value="{{ old('title', $buku->title) }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Penulis</label>
+                <input type="text" name="author" value="{{ old('author', $buku->author) }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Kategori</label>
+                <select name="category_id">
+                    <option value="">-- Pilih Kategori --</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}"
+                            {{ old('category_id', $buku->category_id) == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Penerbit</label>
+                <input type="text" name="penerbit" value="{{ old('penerbit', $buku->penerbit) }}">
+            </div>
+
+            <div class="form-group">
+                <label>Tahun</label>
+                <input type="text" name="tahun" value="{{ old('tahun', $buku->tahun) }}">
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <select name="status" required>
+                    <option value="tersedia" {{ $buku->status == 'tersedia' ? 'selected' : '' }}>tersedia</option>
+                    <option value="dipinjam" {{ $buku->status == 'dipinjam' ? 'selected' : '' }}>dipinjam</option>
+                </select>
+            </div>
+
+            <div class="form-group full">
+                <label>Deskripsi</label>
+                <textarea name="deskripsi">{{ old('deskripsi', $buku->deskripsi) }}</textarea>
+            </div>
+
+            <div class="form-group full">
+                <label>Cover Buku</label><br>
+                <img src="{{ asset('images/' . $buku->cover) }}" width="100"><br><br>
+                <input type="file" name="cover" accept="image/*">
+                <small style="color:#94a3b8;">Kosongkan jika tidak ingin mengganti cover</small>
+            </div>
+
+            <button type="submit" class="btn full">Perbarui Buku</button>
+        </form>
+
+    </div>
+</div>

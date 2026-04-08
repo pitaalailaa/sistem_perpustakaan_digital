@@ -15,6 +15,12 @@ class BukuController extends Controller
         return view('page.anggota.detail-buku', compact('buku'));
     }
 
+    public function detail($id)
+    {
+        $buku = Buku::findOrFail($id);
+        return view('page.anggota.detail-buku', compact('buku'));
+    }
+
     public function index(Request $request)
     {
         $q = $request->query('q');
@@ -22,7 +28,6 @@ class BukuController extends Controller
 
         $query = Buku::query();
 
-        // 🔍 SEARCH
         if ($q) {
             $query->where(function ($q2) use ($q) {
                 $q2->where('title', 'like', "%{$q}%")
@@ -32,28 +37,23 @@ class BukuController extends Controller
             });
         }
 
-        // 📂 FILTER KATEGORI
         if ($kategori) {
             $query->where('kategori', $kategori);
         }
 
         $bukus = $query->orderBy('judul')->orderBy('title')->get();
 
-        // 🔥 AMBIL USER LOGIN
         $user = Auth::user();
 
-        // 🔥 SEMUA BUKU YANG LAGI DIPROSES (GLOBAL)
         $requestedBooks = Peminjaman::whereIn('status', ['pending', 'dipinjam', 'request_kembali'])
             ->pluck('buku_id')
             ->toArray();
 
-        // 🔥 KHUSUS USER LOGIN
         $userPeminjaman = Peminjaman::where('user_id', $user->id)
             ->whereIn('status', ['pending', 'dipinjam', 'request_kembali'])
             ->get()
             ->keyBy('buku_id');
 
-        // 🔥 AMBIL KATEGORI UNIK
         $kategoris = Buku::distinct()->pluck('kategori')->filter()->sort();
 
         return view('page.anggota.cari-buku', compact(
@@ -64,5 +64,30 @@ class BukuController extends Controller
             'requestedBooks',
             'userPeminjaman'
         ));
+    }
+
+    // ✅ PINDAH KE SINI (DI LUAR INDEX)
+    public function store(Request $request)
+    {
+        $fileName = null;
+
+        if ($request->hasFile('cover')) {
+            $file = $request->file('cover');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images'), $fileName);
+        }
+
+        Buku::create([
+            'judul' => $request->judul,
+            'penulis' => $request->penulis,
+            'penerbit' => $request->penerbit,
+            'tahun' => $request->tahun,
+            'kategori' => $request->kategori,
+            'deskripsi' => $request->deskripsi,
+            'status' => $request->status,
+            'cover' => $fileName,
+        ]);
+
+        return redirect()->route('buku');
     }
 }

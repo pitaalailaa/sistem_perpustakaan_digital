@@ -84,8 +84,9 @@
         .sidebar {
             width: 270px;
             background-color: #170a6b40;
-            padding-top: 20px;
+            padding-top: 32px;
             position: relative;
+            margin-top: 6px;
         }
 
         .sidebar a {
@@ -107,7 +108,7 @@
         /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 460px 10px;
+            margin: 440px 10px;
         }
 
         /* logout bawah */

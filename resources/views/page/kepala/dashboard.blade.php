@@ -81,8 +81,9 @@ html, body{
 .sidebar{
   width:270px;
   background-color:#170a6b40;
-  padding-top:20px;
+  padding-top:32px;
   position:relative;
+  margin-top: 6px;
 }
 
 .sidebar a {
@@ -104,7 +105,7 @@ html, body{
 /* divider */
 .divider {
   border-top:1px solid #475569;
-  margin:460px 10px;
+  margin:390px 10px;
 }
 
 /* logout bawah */
@@ -277,7 +278,7 @@ tr:hover{
       <a href="{{ route('kepala.petugas') }}">Data Petugas</a>
       <a href="{{ route('kepala.buku') }}">Data Buku</a>
       <a href="{{ route('kepala.laporan') }}">Laporan</a>
-      <a href="{{ route('kepala.biodata') }}">Biodata</a>
+     <a href="{{ route('kepala.biodata') }}" class="active">Biodata</a>
       <div class="divider"></div>
       <div class="logout">
         <a href="/logout">Logout</a>

@@ -11,20 +11,6 @@
             font-family: sans-serif;
         }
 
-        .content {
-            flex: 1;
-            color: white;
-        }
-
-        h3 {
-            margin-left: 5px;
-        }
-
-        /* tombol hover */
-        button:hover {
-            opacity: 0.8;
-        }
-
         html,
         body {
             margin: 0;
@@ -98,8 +84,9 @@
         .sidebar {
             width: 270px;
             background-color: #170a6b40;
-            padding-top: 20px;
+            padding-top: 32px;
             position: relative;
+            margin-top: 6px;
         }
 
         .sidebar a {
@@ -118,10 +105,14 @@
             background: #335077;
         }
 
+        .sidebar a.active {
+            background: #3b82f6;
+        }
+
         /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 460px 10px;
+            margin: 388px 2px;
         }
 
         /* logout bawah */
@@ -137,16 +128,55 @@
             font-weight: bold;
         }
 
-        /* CONTENT */
-        /* TABLE KHUSUS DATA BUKU */
+        /* CONTENT - KUNCI TOTAL! */
+        .content {
+            flex: 1;
+            padding: 30px;
+            color: white;
+            overflow-y: auto;
+            /* Cuma vertikal yang bisa scroll */
+            overflow-x: hidden;
+            /* 🔒 LARANG GESER HORIZONTAL */
+            width: 100%;
+        }
+
+        /* TABLE - HAPUS MARGIN LEFT YANG BIKIN GESER */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            /* HAPUS: margin-left: 40px; */
             background: #1e293b;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            table-layout: fixed;
+            /* 🔒 TABLE GAK BISA MELEBAR */
+        }
+
+        /* TITLE CENTER */
+        .content h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        /* H3 JUDUL */
+        .content h3 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        /* RESPONSIVE TABLE */
+        @media (max-width: 768px) {
+            table {
+                font-size: 12px;
+            }
+
+            th,
+            td {
+                padding: 8px 4px;
+            }
         }
 
         th,
@@ -228,8 +258,7 @@
 
         <!-- MAIN -->
         <div class="main">
-
-            <!-- SIDEBAR -->
+     <!-- SIDEBAR -->
             <div class="sidebar">
                 <a href="{{ route('petugas.dashboard') }}">Dashboard</a>
                 <a href="{{ route('petugas.biodata') }}">Biodata</a>
@@ -239,90 +268,81 @@
                 <a href="{{ route('petugas.pengembalian') }}">Pengembalian</a>
                 <div class="divider"></div>
 
+
                 <div class="logout">
-                    <a href="/logout" style="color:#f87171;">Logout</a>
+                    <a href="/logout">Logout</a>
                 </div>
             </div>
 
-            <!-- CONTENT -->
-            <div class="content" style="padding:20px; overflow:auto; width:100%;">
 
-                <h2 style="text-align:center; color:white;">Data Peminjaman</h2>
+          <!-- CONTENT - BERSIH & KUNCI! -->
+<div class="content">
 
-                <!-- 📥 PERMINTAAN -->
-                <h3 style="color:#facc15; margin-top:30px;">Permintaan Peminjaman</h3>
+    <h2>Data Peminjaman</h2>
 
-                <table>
-                    <tr>
-                        <th>No.</th>
-                        <th>Nama</th>
-                        <th>Kelas</th>
-                        <th>Judul Buku</th>
-                        <th>Aksi</th>
-                    </tr>
+    <!-- 📥 PERMINTAAN -->
+    <h3 style="color:#facc15;">Permintaan Peminjaman</h3>
 
-                    @forelse($permintaan as $index => $p)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $p->user->name ?? '-' }}</td>
-                            <td>{{ $p->user->kelas ?? '-' }}</td>
-                            <td><b>{{ $p->buku->judul ?? '-' }}</b></td>
-                            <td>
-                                <form action="{{ route('petugas.peminjaman.konfirmasi', $p->id) }}" method="POST">
-                                    @csrf
-                                    <button
-                                        style="background:#22c55e; border:none; padding:8px 12px; border-radius:6px; color:white; cursor:pointer;">
-                                        Konfirmasi
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5">Tidak ada permintaan.</td>
-                        </tr>
-                    @endforelse
-                </table>
+    <table>
+        <tr>
+            <th>No.</th>
+            <th>Nama</th>
+            <th>Kelas</th>
+            <th>Judul Buku</th>
+            <th>Aksi</th>
+        </tr>
+        @forelse($permintaan as $index => $p)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $p->user->name ?? '-' }}</td>
+                <td>{{ $p->user->kelas ?? '-' }}</td>
+                <td><b>{{ $p->buku->judul ?? '-' }}</b></td>
+                <td>
+                    <form action="{{ route('petugas.peminjaman.konfirmasi', $p->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button style="background:#22c55e; border:none; padding:8px 12px; border-radius:6px; color:white; cursor:pointer; font-size:12px;">
+                            Konfirmasi
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="5" style="color:#94a3b8;">Tidak ada permintaan.</td>
+            </tr>
+        @endforelse
+    </table>
 
+    <!-- ✅ RIWAYAT -->
+    <h3 style="color:#38bdf8;">Riwayat Peminjaman</h3>
 
-                <!-- ✅ RIWAYAT -->
-                <h3 style="color:#38bdf8; margin-top:40px;">Riwayat Peminjaman</h3>
+    <table>
+        <tr>
+            <th>No.</th>
+            <th>Nama</th>
+            <th>Kelas</th>
+            <th>Judul Buku</th>
+            <th>Tanggal Pinjam</th>
+            <th>Status</th>
+        </tr>
+        @forelse($riwayat as $index => $r)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $r->user->name ?? '-' }}</td>
+                <td>{{ $r->user->kelas ?? '-' }}</td>
+                <td><b>{{ $r->buku->judul ?? '-' }}</b></td>
+                <td>{{ $r->borrowed_at }}</td>
+                <td>
+                    <span style="background:#22c55e; padding:4px 8px; border-radius:6px; font-size:12px;">
+                        {{ ucfirst($r->status) }}
+                    </span>
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="6" style="color:#94a3b8;">Tidak ada riwayat.</td>
+            </tr>
+        @endforelse
+    </table>
 
-                <table>
-                    <tr>
-                        <th>No.</th>
-                        <th>Nama</th>
-                        <th>Kelas</th>
-                        <th>Judul Buku</th>
-                        <th>Tanggal Pinjam</th>
-                        <th>Status</th>
-                    </tr>
-
-                    @forelse($riwayat as $index => $r)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $r->user->name ?? '-' }}</td>
-                            <td>{{ $r->user->kelas ?? '-' }}</td>
-                            <td><b>{{ $r->buku->judul ?? '-' }}</b></td>
-                            <td>{{ $r->borrowed_at }}</td>
-                            <td>
-                                <span style="background:#22c55e; padding:5px 10px; border-radius:6px;">
-                                    {{ ucfirst($r->status) }}
-                                </span>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6">Tidak ada riwayat.</td>
-                        </tr>
-                    @endforelse
-                </table>
-
-            </div>
-
-        </div>
-    </div>
-
-</body>
-
-</html>
+</div>

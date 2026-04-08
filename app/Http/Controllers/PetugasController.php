@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Buku;
 use App\Models\Peminjaman;
@@ -173,65 +172,109 @@ class PetugasController extends Controller
     /**
      * Store Buku - Simpan buku baru ke database
      */
-    public function storeBuku(Request $request)
-    {
-        $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'category_id' => 'nullable|exists:categories,id',
-            'status' => 'required|in:tersedia,dipinjam',
-        ]);
+  public function storeBuku(Request $request)
+{
+    $request->validate([
+        'title' => 'required',
+        'author' => 'required',
+        'category_id' => 'nullable|exists:categories,id',
+        'status' => 'required|in:tersedia,dipinjam',
+        'cover' => 'nullable|image|mimes:jpg,jpeg,png',
+    ]);
 
-        Buku::create([
-            'title' => $request->title,
-            'author' => $request->author,
-            'penulis' => $request->author,
-            'kategori' => $request->category_id
-                ? Category::find($request->category_id)->name
-                : null,
-            'category_id' => $request->category_id,
-            'status' => $request->status,
-            'available' => $request->status == 'tersedia' ? 1 : 0,
-        ]);
+    // 🔥 upload cover
+    $fileName = null;
 
+    if ($request->hasFile('cover')) {
+        $file = $request->file('cover');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('images'), $fileName);
+    }
+
+    // 🔥 simpan buku
+  Buku::create([
+    'title' => $request->title,
+    'author' => $request->author,
+
+    // 🔥 INI WAJIB (BIAR GA ERROR)
+    'penulis' => $request->author,
+
+    'penerbit' => $request->penerbit,
+    'tahun' => $request->tahun,
+    'deskripsi' => $request->deskripsi,
+
+    'kategori' => $request->category_id
+        ? Category::find($request->category_id)->name
+        : null,
+
+    'category_id' => $request->category_id,
+
+    'status' => $request->status,
+    'available' => $request->status == 'tersedia' ? 1 : 0,
+
+    'cover' => $fileName,
+]);
         return redirect()->route('petugas.buku')->with('success', 'Buku berhasil ditambahkan');
     }
 
     /**
      * Form Edit Buku - Halaman untuk edit data buku
      */
-    public function editBuku($id)
-    {
-        $buku = Buku::findOrFail($id);
-        $categories = Category::orderBy('name')->get();
-        return view('page.petugas.buku-edit', compact('buku', 'categories'));
-    }
+  public function editBuku($id)
+{
+    $buku = Buku::findOrFail($id);
+    $categories = Category::orderBy('name')->get();
+
+    return view('page.petugas.buku-edit', compact('buku', 'categories'));
+}
+
 
     /**
      * Update Buku - Simpan perubahan data buku
      */
-    public function updateBuku(Request $request, $id)
-    {
-        $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'category_id' => 'nullable|exists:categories,id',
-            'status' => 'required|in:tersedia,dipinjam',
-        ]);
+public function updateBuku(Request $request, $id)
+{
+    $request->validate([
+        'title' => 'required',
+        'author' => 'required',
+        'category_id' => 'nullable|exists:categories,id',
+        'status' => 'required|in:tersedia,dipinjam',
+        'cover' => 'nullable|image|mimes:jpg,jpeg,png',
+    ]);
 
-        $buku = Buku::findOrFail($id);
+    $buku = Buku::findOrFail($id);
 
-        $buku->update([
-            'title' => $request->title,
-            'author' => $request->author,
-            'penulis' => $request->author,
-            'kategori' => $request->category_id
-                ? Category::find($request->category_id)->name
-                : $buku->kategori,
-            'category_id' => $request->category_id,
-            'status' => $request->status,
-            'available' => $request->status == 'tersedia' ? 1 : 0,
-        ]);
+    // 🔥 upload cover baru (kalau ada)
+    $fileName = $buku->cover;
+
+    if ($request->hasFile('cover')) {
+        $file = $request->file('cover');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('images'), $fileName);
+    }
+
+    $buku->update([
+        'title' => $request->title,
+        'author' => $request->author,
+
+        // 🔥 WAJIB (biar ga error lagi)
+        'penulis' => $request->author,
+
+        'penerbit' => $request->penerbit,
+        'tahun' => $request->tahun,
+        'deskripsi' => $request->deskripsi,
+
+        'kategori' => $request->category_id
+            ? Category::find($request->category_id)->name
+            : $buku->kategori,
+
+        'category_id' => $request->category_id,
+
+        'status' => $request->status,
+        'available' => $request->status == 'tersedia' ? 1 : 0,
+
+        'cover' => $fileName,
+    ]);
 
         return redirect()->route('petugas.buku')->with('success', 'Buku berhasil diperbarui');
     }

@@ -6,6 +6,10 @@
     <meta charset="utf-8">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: sans-serif;
@@ -21,7 +25,7 @@
 
         /* BACKGROUND */
         .background {
-            background: #051031;
+            background-color: #051031;
             min-height: 100vh;
         }
 
@@ -29,7 +33,7 @@
         .header {
             width: 100%;
             height: 100px;
-            background: #170a6b40;
+            background-color: #170a6b40;
         }
 
         .header-content {
@@ -40,14 +44,17 @@
             padding: 0 20px;
         }
 
+        /* KIRI (LOGO + JUDUL) */
         .left-box {
             display: flex;
             align-items: center;
             gap: 5px;
+            /* 🔥 mepet ke logo */
         }
 
         .logo img {
             width: 90px;
+            height: auto;
         }
 
         .judul {
@@ -71,7 +78,7 @@
             border-radius: 50%;
         }
 
-        /* MAIN */
+        /* LAYOUT */
         .main {
             display: flex;
             height: calc(100vh - 100px);
@@ -80,9 +87,10 @@
         /* SIDEBAR */
         .sidebar {
             width: 270px;
-            background: #170a6b40;
-            padding-top: 20px;
+            background-color: #170a6b40;
+            padding-top: 32px;
             position: relative;
+            margin-top: 6px;
         }
 
         .sidebar a {
@@ -94,17 +102,20 @@
             margin: 5px 10px;
             border-radius: 8px;
             font-weight: bold;
+            font-size: 18px;
         }
 
         .sidebar a:hover {
             background: #335077;
         }
 
+        /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 460px 10px;
+            margin: 440px 10px;
         }
 
+        /* logout bawah */
         .logout {
             position: absolute;
             bottom: 2px;
@@ -114,50 +125,60 @@
 
         .logout a {
             color: #f87171;
+            font-weight: bold;
         }
 
-        /* ===================== */
-        /* 🔥 CONTENT MODERN */
-        /* ===================== */
+        /* ================= */
+        /* 🔥 CONTENT FIXED */
+        /* ================= */
 
         .content {
             flex: 1;
             padding: 30px;
             display: flex;
             gap: 30px;
+            flex-wrap: wrap;
+            /* 🔥 responsive */
+            max-width: 1200px;
+            margin: 0 auto;
             color: white;
         }
 
-        /* LEFT PROFILE */
+        /* PROFILE */
         .profile-card {
-            width: 40%;
+            flex: 1;
+            min-width: 280px;
             background: linear-gradient(145deg, #1e293b, #0f172a);
             border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
         }
 
         /* PROFILE HEADER */
         .profile-header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .profile-header img {
-            width: 90px;
-            height: 90px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             border: 3px solid #3b82f6;
-            margin-bottom: 10px;
         }
 
         .name {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
         }
 
         .role {
-            font-size: 14px;
+            font-size: 13px;
             color: #94a3b8;
         }
 
@@ -165,32 +186,38 @@
         .profile-info {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .info-row {
             background: #02061780;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 10px;
+            border-radius: 8px;
         }
 
         .label {
-            font-size: 13px;
+            font-size: 12px;
             color: #94a3b8;
         }
 
         .value {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
         }
 
-        /* RIGHT FORM */
+        /* FORM */
         .form-card {
-            width: 60%;
+            flex: 2;
+            min-width: 320px;
             background: #1e293b;
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+        }
+
+        .form-card:hover {
+            transform: translateY(-5px);
         }
 
         .form-card h2 {
@@ -199,22 +226,22 @@
             color: #3b82f6;
         }
 
-        /* FORM */
+        /* FORM INPUT */
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .form-group label {
-            font-size: 14px;
+            font-size: 13px;
             color: #cbd5e1;
         }
 
         .form-group input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin-top: 5px;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             background: #334155;
             color: white;
         }
@@ -227,10 +254,10 @@
         /* BUTTON */
         .btn {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: #3b82f6;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             color: white;
             font-weight: bold;
             cursor: pointer;
@@ -244,12 +271,10 @@
         .success-msg {
             text-align: center;
             color: #34d399;
-            margin-bottom: 15px;
         }
 
         .error-msg {
             color: #f87171;
-            margin-bottom: 15px;
         }
     </style>
 </head>

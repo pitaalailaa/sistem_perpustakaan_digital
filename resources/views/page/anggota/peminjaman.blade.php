@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
 
-    <style>
+   <style>
         body {
             margin: 0;
             font-family: sans-serif;
@@ -45,6 +45,7 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            /* 🔥 mepet ke logo */
         }
 
         .logo img {
@@ -83,8 +84,9 @@
         .sidebar {
             width: 270px;
             background-color: #170a6b40;
-            padding-top: 20px;
+            padding-top: 32px;
             position: relative;
+            margin-top: 6px;
         }
 
         .sidebar a {
@@ -106,7 +108,7 @@
         /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 460px 10px;
+            margin: 440px 10px;
         }
 
         /* logout bawah */
@@ -245,7 +247,7 @@
 
                 <div class="peminjaman-box">
 
-                    <div class="peminjaman-title">peminjaman</div>
+                    <div class="peminjaman-title">Peminjaman</div>
 
                     <table class="peminjaman-table">
                         <thead>

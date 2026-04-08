@@ -2,7 +2,7 @@
 use App\Models\Category;
 use Illuminate\Http\Request;
 
-class KategoriController extends Controller
+class KategoriController extends Category
 {
     public function index()
     {
@@ -25,4 +25,3 @@ class KategoriController extends Controller
         return back()->with('success', 'Kategori dihapus!');
     }
 }
-

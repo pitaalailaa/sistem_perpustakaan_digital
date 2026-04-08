@@ -6,7 +6,6 @@ use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\KepalaController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\AnggotaController;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/biodata', [AnggotaController::class, 'updateBiodata'])->name('biodata.update');
 
     Route::get('/buku', [BukuController::class, 'index'])->name('buku');
-    Route::get('/buku/{id}', [BukuController::class, 'show'])->name('buku.show');
+    Route::get('/buku/{id}', [BukuController::class, 'detail'])->name('buku.detail');
     Route::post('/buku/{id}/pinjam', [AnggotaController::class, 'pinjam'])->name('buku.pinjam');
 
     Route::get('/peminjaman', [AnggotaController::class, 'peminjaman'])->name('peminjaman');
@@ -71,6 +70,8 @@ Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->group(function (
     Route::get('/buku/{id}/edit', [PetugasController::class, 'editBuku'])->name('petugas.buku.edit');
     Route::put('/buku/{id}', [PetugasController::class, 'updateBuku'])->name('petugas.buku.update');
     Route::delete('/buku/{id}', [PetugasController::class, 'destroyBuku'])->name('petugas.buku.destroy');
+    Route::get('/buku/{id}/pinjam', [AnggotaController::class, 'formPinjam'])->name('buku.pinjam.form');
+    Route::post('/buku/{id}/pinjam', [AnggotaController::class, 'pinjam'])->name('buku.pinjam');
 
     // ===== KATEGORI (FIX DI SINI 🔥) =====
     Route::post('/kategori', [PetugasController::class, 'storeKategori'])->name('kategori.store');

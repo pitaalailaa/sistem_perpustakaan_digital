@@ -104,73 +104,52 @@ class AnggotaController extends Controller
         return view('page.anggota.pengembalian', compact('peminjamans', 'user'));
     }
 
-    /**
-     * Pinjam - Request peminjaman buku dengan validasi
-     * Validasi: status buku, limit peminjaman, ketersediaan buku
-     */
-    public function pinjam($id)
-    {
-        $user = Auth::user();
-        $buku = Buku::findOrFail($id);
+   public function pinjam(Request $request, $id)
+{
+    $user = Auth::user();
+    $buku = Buku::findOrFail($id);
 
-        if ($buku->status !== 'tersedia') {
-            return back()->with('error', 'Buku sedang tidak tersedia untuk dipinjam.');
-        }
-
-        $existingLoan = Peminjaman::where('user_id', $user->id)
-            ->where('status', 'dipinjam')
-            ->count();
-
-        if ($existingLoan >= 5) {
-            return back()->with('error', 'Anda tidak boleh meminjam lebih dari 5 buku sekaligus.');
-        }
-
-        $hasExistingRequest = Peminjaman::where('buku_id', $id)
-            ->whereIn('status', ['pending', 'dipinjam', 'request_kembali'])
-            ->exists();
-
-        if ($hasExistingRequest) {
-            return back()->with('error', 'Buku ini telah sedang dalam proses peminjaman. Silakan pilih buku lain.');
-        }
-
-        $peminjaman = Peminjaman::create([
-            'user_id' => $user->id,
-            'buku_id' => $id,
-            'borrowed_at' => null,
-            'due_date' => null,
-            'status' => 'pending',
-            'denda' => 0,
-        ]);
-
-        return back()->with('success', 'Permintaan peminjaman dikirim, menunggu persetujuan petugas.');
+    // ✅ validasi tanggal wajib diisi
+    if (!$request->tanggal_pinjam) {
+        return back()->with('error', 'Tanggal pinjam harus diisi.');
     }
 
-    /**
-     * Konfirmasi Peminjaman - Digunakan oleh sistem untuk finalisasi peminjaman yang disetujui
-     */
-    public function konfirmasiPeminjaman($id)
-    {
-        $peminjaman = Peminjaman::findOrFail($id);
-
-        if ($peminjaman->status !== 'pending') {
-            return back()->with('info', 'Sudah diproses.');
-        }
-
-        $peminjaman->update([
-            'status' => 'dipinjam',
-            'borrowed_at' => now(),
-            'due_date' => now()->addDays(3),
-        ]);
-
-        if ($peminjaman->buku) {
-            $peminjaman->buku->update([
-                'status' => 'dipinjam',
-                'available' => 0
-            ]);
-        }
-
-        return back()->with('success', 'Peminjaman berhasil dikonfirmasi');
+    if ($buku->status !== 'tersedia') {
+        return back()->with('error', 'Buku sedang tidak tersedia untuk dipinjam.');
     }
+
+    $existingLoan = Peminjaman::where('user_id', $user->id)
+        ->where('status', 'dipinjam')
+        ->count();
+
+    if ($existingLoan >= 5) {
+        return back()->with('error', 'Anda tidak boleh meminjam lebih dari 5 buku sekaligus.');
+    }
+
+    $hasExistingRequest = Peminjaman::where('buku_id', $id)
+        ->whereIn('status', ['pending', 'dipinjam', 'request_kembali'])
+        ->exists();
+
+    if ($hasExistingRequest) {
+        return back()->with('error', 'Buku ini telah sedang dalam proses peminjaman.');
+    }
+
+    // 🔥 HITUNG DUE DATE (5 HARI)
+    $tanggalPinjam = $request->tanggal_pinjam;
+    $dueDate = \Carbon\Carbon::parse($tanggalPinjam)->addDays(5);
+
+    // 🔥 SIMPAN
+    Peminjaman::create([
+        'user_id' => $user->id,
+        'buku_id' => $id,
+        'borrowed_at' => $tanggalPinjam, // dari form
+        'due_date' => $dueDate,
+        'status' => 'pending',
+        'denda' => 0,
+    ]);
+
+    return redirect()->route('buku')->with('success', 'Permintaan peminjaman dikirim.');
+}
 
     /**
      * Kembalikan - Anggota request pengembalian buku (menunggu konfirmasi petugas)

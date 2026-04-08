@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -11,22 +10,7 @@
             font-family: sans-serif;
         }
 
-        .content {
-            flex: 1;
-            color: white;
-        }
-
-        h3 {
-            margin-left: 5px;
-        }
-
-        /* tombol hover */
-        button:hover {
-            opacity: 0.8;
-        }
-
-        html,
-        body {
+        html, body {
             margin: 0;
             padding: 0;
             height: 100%;
@@ -59,7 +43,6 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            /* 🔥 mepet ke logo */
         }
 
         .logo img {
@@ -98,8 +81,9 @@
         .sidebar {
             width: 270px;
             background-color: #170a6b40;
-            padding-top: 20px;
+            padding-top: 32px;
             position: relative;
+            margin-top: 6px;
         }
 
         .sidebar a {
@@ -121,10 +105,10 @@
         /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 460px 10px;
+            margin: 388px 2px;
         }
 
-        /* logout bawah */
+        /* logout */
         .logout {
             position: absolute;
             bottom: 2px;
@@ -137,8 +121,29 @@
             font-weight: bold;
         }
 
-        /* CONTENT */
-        /* TABLE KHUSUS DATA BUKU */
+        /* CONTENT - KUNCI TOTAL! */
+        .content {
+            flex: 1;
+            padding: 30px;
+            color: white;
+            overflow-y: auto;
+            overflow-x: hidden; /* 🔒 NO HORIZONTAL SCROLL */
+            width: 100%;
+        }
+
+        /* TITLE */
+        .content h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .content h3 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        /* TABLE - FULL WIDTH & RESPONSIVE */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -147,18 +152,21 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            table-layout: fixed; /* 🔒 TABLE GAK MELEBAR */
         }
 
-        th,
-        td {
-            padding: 14px;
+        th, td {
+            padding: 12px 8px;
             text-align: center;
+            font-size: 13px;
         }
 
         th {
             background: #334155;
-            font-size: 14px;
+            font-size: 13px;
             color: #e2e8f0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         tr:not(:last-child) {
@@ -169,74 +177,76 @@
             background: #273449;
         }
 
-        /* BUTTON AKSI */
-        .btn-edit {
-            background: #1d4ed8;
-            padding: 6px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-right: 5px;
-        }
-
-        .btn-hapus {
-            background: #dc2626;
-            padding: 6px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        /* BUTTON TAMBAH */
-        .btn-tambah {
-            background: #2563eb;
-            color: white;
-            padding: 10px 20px;
+        /* BUTTON */
+        button {
+            background: #22c55e;
             border: none;
-            border-radius: 8px;
-            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: white;
             cursor: pointer;
+            font-size: 12px;
             transition: 0.3s;
         }
 
-        .btn-tambah:hover {
-            background: #1d4ed8;
+        button:hover {
+            background: #16a34a;
+        }
+
+        /* STATUS */
+        .status-badge {
+            background: #22c55e;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* DENDA */
+        .denda {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            th, td {
+                padding: 8px 4px;
+                font-size: 11px;
+            }
+            .sidebar {
+                width: 220px;
+            }
         }
     </style>
 </head>
 
 <body>
-
     <div class="background">
 
         <!-- HEADER -->
         <div class="header">
             <div class="header-content">
-
-                <!-- KIRI -->
                 <div class="left-box">
                     <div class="logo">
                         <img src="{{ asset('images/logoperpus.png') }}" alt="Logo">
                     </div>
-
                     <h3 class="judul">
-                        Sistem <br>
-                        Perpustakaan <br>
-                        Digital
+                        Sistem <br> Perpustakaan <br> Digital
                     </h3>
                 </div>
 
-                <!-- KANAN -->
                 <div class="user-box">
                     <img src="{{ asset('images/profil.png') }}" alt="{{ auth()->user()->role }}">
                     <span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
                 </div>
-
             </div>
         </div>
 
         <!-- MAIN -->
         <div class="main">
 
-            <!-- SIDEBAR -->
+         <!-- SIDEBAR -->
             <div class="sidebar">
                 <a href="{{ route('petugas.dashboard') }}">Dashboard</a>
                 <a href="{{ route('petugas.biodata') }}">Biodata</a>
@@ -244,22 +254,22 @@
                 <a href="{{ route('petugas.anggota') }}">Data Anggota</a>
                 <a href="{{ route('petugas.peminjaman') }}">Peminjaman</a>
                 <a href="{{ route('petugas.pengembalian') }}">Pengembalian</a>
-
-
                 <div class="divider"></div>
+
 
                 <div class="logout">
                     <a href="/logout">Logout</a>
                 </div>
             </div>
 
-            <!-- CONTENT -->
-            <div class="content" style="padding:20px; overflow:auto; width:100%;">
 
-                <h2 style="text-align:center; color:white;">Data Pengembalian</h2>
+            <!-- CONTENT - KUNCI! -->
+            <div class="content">
 
-                <!-- 📥 PERMINTAAN -->
-                <h3 style="color:#facc15; margin-top:30px;">Permintaan Pengembalian</h3>
+                <h2>Data Pengembalian</h2>
+
+                <!-- 📥 PERMINTAAN PENGEMBALIAN -->
+                <h3 style="color:#facc15;">Permintaan Pengembalian</h3>
 
                 <table>
                     <tr>
@@ -269,33 +279,28 @@
                         <th>Judul Buku</th>
                         <th>Aksi</th>
                     </tr>
-
                     @forelse($permintaan as $index => $p)
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $p->user->name ?? '-' }}</td>
                             <td>{{ $p->user->kelas ?? '-' }}</td>
-                            <td><b>{{ $p->buku->title ?? '-' }}</b></td>
+                            <td style="font-weight: bold;">{{ $p->buku->title ?? '-' }}</td>
                             <td>
-                                <form action="{{ route('petugas.pengembalian.konfirmasi', $p->id) }}" method="POST">
+                                <form action="{{ route('petugas.pengembalian.konfirmasi', $p->id) }}" method="POST" style="display:inline;">
                                     @csrf
-                                    <button
-                                        style="background:#22c55e; border:none; padding:8px 12px; border-radius:6px; color:white; cursor:pointer;">
-                                        Konfirmasi
-                                    </button>
+                                    <button type="submit">Konfirmasi</button>
                                 </form>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5">Tidak ada permintaan.</td>
+                            <td colspan="5" style="color:#94a3b8;">Tidak ada permintaan pengembalian.</td>
                         </tr>
                     @endforelse
                 </table>
 
-
-                <!-- ✅ RIWAYAT -->
-                <h3 style="color:#38bdf8; margin-top:40px;">Riwayat Pengembalian</h3>
+                <!-- ✅ RIWAYAT PENGEMBALIAN -->
+                <h3 style="color:#38bdf8;">Riwayat Pengembalian</h3>
 
                 <table>
                     <tr>
@@ -307,26 +312,26 @@
                         <th>Status</th>
                         <th>Denda</th>
                     </tr>
-
                     @forelse($riwayat as $index => $r)
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $r->user->name ?? '-' }}</td>
                             <td>{{ $r->user->kelas ?? '-' }}</td>
-                            <td><b>{{ $r->buku->title ?? '-' }}</b></td>
-                            <td>{{ $r->returned_at }}</td>
-                            <td>
-                                <span style="background:#22c55e; padding:5px 10px; border-radius:6px;">
-                                    {{ ucfirst($r->status) }}
-                                </span>
-                            </td>
-                            <td>Rp {{ number_format($r->denda ?? 0, 0, ',', '.') }}</td>
+                            <td style="font-weight: bold;">{{ $r->buku->title ?? '-' }}</td>
+                            <td>{{ $r->returned_at ?? '-' }}</td>
+                            <td><span class="status-badge">{{ ucfirst($r->status ?? '-') }}</span></td>
+                            <td class="denda">Rp {{ number_format($r->denda ?? 0, 0, ',', '.') }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7">Tidak ada riwayat.</td>
+                            <td colspan="7" style="color:#94a3b8;">Tidak ada riwayat pengembalian.</td>
                         </tr>
                     @endforelse
                 </table>
 
             </div>
+
+        </div>
+    </div>
+</body>
+</html>

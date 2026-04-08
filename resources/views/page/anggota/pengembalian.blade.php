@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
 
-    <style>
+      <style>
         body {
             margin: 0;
             font-family: sans-serif;
@@ -84,8 +84,9 @@
         .sidebar {
             width: 270px;
             background-color: #170a6b40;
-            padding-top: 20px;
+            padding-top: 32px;
             position: relative;
+            margin-top: 6px;
         }
 
         .sidebar a {
@@ -107,7 +108,7 @@
         /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 460px 10px;
+            margin: 440px 10px;
         }
 
         /* logout bawah */
@@ -123,14 +124,15 @@
             font-weight: bold;
         }
 
-        <style>
         /* === PENGEMBALIAN === */
 
         .content {
             flex: 1;
-            padding: 20px 40px;
+            padding: 30px;
             color: white;
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
 
         /* box utama biar center & rapi */
@@ -142,11 +144,10 @@
         /* judul lebih clean */
         .pengembalian-title {
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 32px;
+            margin-bottom: 25px;
+            font-size: 26px;
             font-weight: bold;
             color: #3b82f6;
-            text-transform: capitalize;
         }
 
         /* tabel */
@@ -154,33 +155,29 @@
             width: 100%;
             border-collapse: collapse;
             background: #1e293b;
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
             font-size: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            border: 2px solid #3b82f6;
+            font-size: 15px;   
         }
 
         /* header tabel */
         .pengembalian-table th {
-            background: #334155;
-            padding: 16px 14px;
-            font-size: 16px;
-            color: #e2e8f0;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: #0f172a;
+            padding: 16px;
+            font-size: 15px
         }
 
         /* isi tabel */
         .pengembalian-table td {
-            padding: 16px 14px;
-            text-align: left;
+            padding: 16px;
+            text-align: center;
         }
 
         /* garis antar row */
         .pengembalian-table tr:not(:last-child) {
-            border-bottom: 1px solid #475569;
+            border-bottom: 1px solid #334155;
         }
 
         /* hover biar hidup */
