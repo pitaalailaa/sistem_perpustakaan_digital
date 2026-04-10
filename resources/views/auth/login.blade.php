@@ -154,7 +154,7 @@
             </form>
 
             <div class="link">
-                Belum punya akun? <a href="/register">Register</a>
+                Belum punya akun anggota? <a href="/register">Register</a>
             </div>
         </div>
 

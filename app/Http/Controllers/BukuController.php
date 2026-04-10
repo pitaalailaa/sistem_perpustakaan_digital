@@ -45,14 +45,12 @@ class BukuController extends Controller
 
         $user = Auth::user();
 
-        $requestedBooks = Peminjaman::whereIn('status', ['pending', 'dipinjam', 'request_kembali'])
-            ->pluck('buku_id')
-            ->toArray();
-
         $userPeminjaman = Peminjaman::where('user_id', $user->id)
             ->whereIn('status', ['pending', 'dipinjam', 'request_kembali'])
             ->get()
             ->keyBy('buku_id');
+
+        $activeLoanCount = $userPeminjaman->count();
 
         $kategoris = Buku::distinct()->pluck('kategori')->filter()->sort();
 
@@ -61,8 +59,8 @@ class BukuController extends Controller
             'q',
             'kategori',
             'kategoris',
-            'requestedBooks',
-            'userPeminjaman'
+            'userPeminjaman',
+            'activeLoanCount'
         ));
     }
 

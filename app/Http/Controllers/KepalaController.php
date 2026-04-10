@@ -119,16 +119,16 @@ class KepalaController extends Controller
     }
 
     /**
-     * List Petugas - Tampilkan semua petugas dan admin dari perpustakaan
+     * List Petugas - Tampilkan semua petugas perpustakaan
      */
     public function petugasList()
     {
-        $petugas = User::whereIn('role', ['petugas', 'admin'])->get();
+        $petugas = User::where('role', 'petugas')->get();
         return view('page.kepala.data-petugas', compact('petugas'));
     }
 
     /**
-     * Form Tambah Petugas - Halaman form untuk membuat petugas/admin baru
+     * Form Tambah Petugas - Halaman form untuk membuat petugas baru
      */
     public function createPetugas()
     {
@@ -136,8 +136,7 @@ class KepalaController extends Controller
     }
 
     /**
-     * Store Petugas - Simpan petugas/admin baru ke database
-     * Dapat membuat petugas atau admin berdasarkan input role
+     * Store Petugas - Simpan petugas baru ke database
      */
     public function storePetugas(Request $request)
     {
@@ -145,20 +144,15 @@ class KepalaController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'role' => 'nullable|in:admin,petugas',
         ]);
-
-        $role = $request->role ?: 'petugas';
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $role,
+            'role' => 'petugas',
         ]);
 
-        $message = $role === 'admin' ? 'Kepala berhasil ditambahkan' : 'Petugas berhasil ditambahkan';
-
-        return redirect()->route('kepala.petugas')->with('success', $message);
+        return redirect()->route('kepala.petugas')->with('success', 'Petugas berhasil ditambahkan');
     }
 }

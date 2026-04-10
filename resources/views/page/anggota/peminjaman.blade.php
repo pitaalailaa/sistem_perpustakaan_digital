@@ -133,6 +133,8 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
+            overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         .peminjaman-box.peminjaman-box {
@@ -190,6 +192,22 @@
 
         .btn-kembali:hover {
             background: #2563eb;
+        }
+
+        .btn-denda {
+            background: #f59e0b;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .btn-denda[disabled] {
+            background: #64748b;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -249,6 +267,18 @@
 
                     <div class="peminjaman-title">Peminjaman</div>
 
+                    @if (session('success'))
+                        <div style="background:#14532d;color:#dcfce7;padding:12px 16px;border-radius:10px;margin-bottom:16px;">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if (session('error') || session('info'))
+                        <div style="background:#7c2d12;color:#ffedd5;padding:12px 16px;border-radius:10px;margin-bottom:16px;">
+                            {{ session('error') ?? session('info') }}
+                        </div>
+                    @endif
+
                     <table class="peminjaman-table">
                         <thead>
                             <tr>
@@ -258,6 +288,7 @@
                                 <th>tgl pinjam</th>
                                 <th>tgl kembali</th>
                                 <th>status</th>
+                                <th>denda</th>
                                 <th>aksi</th>
                             </tr>
                         </thead>
@@ -273,23 +304,51 @@
                                     <td class="status-{{ $item->status }}">
                                         {{ ucfirst(str_replace('_', ' ', $item->status)) }}</td>
                                     <td>
+                                        Rp. {{ number_format($item->outstanding_denda, 0, ',', '.') }}
+                                        @if ($item->is_denda_paid && $item->denda > 0)
+                                            <div style="color:#22c55e;font-size:12px;margin-top:6px;">Lunas</div>
+                                        @elseif($item->outstanding_denda > 0)
+                                            <div style="color:#f59e0b;font-size:12px;margin-top:6px;">Terlambat</div>
+                                        @else
+                                            <div style="color:#94a3b8;font-size:12px;margin-top:6px;">Belum ada denda</div>
+                                        @endif
+                                    </td>
+                                    <td>
                                         @if ($item->status === 'dipinjam')
                                             <form method="POST" action="{{ route('peminjaman.kembali', $item->id) }}">
                                                 @csrf
                                                 <button type="submit" class="btn-kembali">Ajukan Pengembalian</button>
                                             </form>
+                                            <form method="POST" action="{{ route('peminjaman.bayar-denda', $item->id) }}">
+                                                @csrf
+                                                <button type="submit" class="btn-denda" {{ $item->can_pay_denda ? '' : 'disabled' }}>
+                                                    Bayar Denda
+                                                </button>
+                                            </form>
                                         @elseif($item->status === 'request_kembali')
-                                            Menunggu persetujuan petugas
+                                            <div>Menunggu persetujuan petugas</div>
+                                            <form method="POST" action="{{ route('peminjaman.bayar-denda', $item->id) }}">
+                                                @csrf
+                                                <button type="submit" class="btn-denda" {{ $item->can_pay_denda ? '' : 'disabled' }}>
+                                                    Bayar Denda
+                                                </button>
+                                            </form>
                                         @elseif($item->status === 'pending')
                                             Menunggu persetujuan pinjam
                                         @else
-                                            Selesai
+                                            <div>Selesai</div>
+                                            <form method="POST" action="{{ route('peminjaman.bayar-denda', $item->id) }}">
+                                                @csrf
+                                                <button type="submit" class="btn-denda" {{ $item->can_pay_denda ? '' : 'disabled' }}>
+                                                    Bayar Denda
+                                                </button>
+                                            </form>
                                         @endif
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7">Belum ada peminjaman.</td>
+                                    <td colspan="8">Belum ada peminjaman.</td>
                                 </tr>
                             @endforelse
                         </tbody>

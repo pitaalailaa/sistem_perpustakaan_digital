@@ -133,7 +133,7 @@ class PetugasController extends Controller
     }
 
     /**
-     * List Petugas untuk Kepala - Tampilkan semua petugas dan admin
+     * List Petugas untuk Kepala - Tampilkan semua petugas
      */
     public function petugasList()
     {
@@ -178,7 +178,7 @@ class PetugasController extends Controller
         'title' => 'required',
         'author' => 'required',
         'category_id' => 'nullable|exists:categories,id',
-        'status' => 'required|in:tersedia,dipinjam',
+        'stock' => 'required|integer|min:0',
         'cover' => 'nullable|image|mimes:jpg,jpeg,png',
     ]);
 
@@ -209,8 +209,9 @@ class PetugasController extends Controller
 
     'category_id' => $request->category_id,
 
-    'status' => $request->status,
-    'available' => $request->status == 'tersedia' ? 1 : 0,
+    'stock' => $request->stock,
+    'status' => (int) $request->stock > 0 ? 'tersedia' : 'dipinjam',
+    'available' => (int) $request->stock > 0 ? 1 : 0,
 
     'cover' => $fileName,
 ]);
@@ -238,7 +239,7 @@ public function updateBuku(Request $request, $id)
         'title' => 'required',
         'author' => 'required',
         'category_id' => 'nullable|exists:categories,id',
-        'status' => 'required|in:tersedia,dipinjam',
+        'stock' => 'required|integer|min:0',
         'cover' => 'nullable|image|mimes:jpg,jpeg,png',
     ]);
 
@@ -270,8 +271,9 @@ public function updateBuku(Request $request, $id)
 
         'category_id' => $request->category_id,
 
-        'status' => $request->status,
-        'available' => $request->status == 'tersedia' ? 1 : 0,
+        'stock' => $request->stock,
+        'status' => (int) $request->stock > 0 ? 'tersedia' : 'dipinjam',
+        'available' => (int) $request->stock > 0 ? 1 : 0,
 
         'cover' => $fileName,
     ]);
@@ -357,14 +359,14 @@ public function updateBuku(Request $request, $id)
 
         $peminjaman->update([
             'status' => 'dipinjam',
-            'borrowed_at' => now(),
-            'due_date' => now()->addDays(3),
+            'borrowed_at' => $peminjaman->borrowed_at ?: now()->toDateString(),
+            'due_date' => $peminjaman->due_date ?: now()->addDays(5)->toDateString(),
         ]);
 
         if ($peminjaman->buku) {
             $peminjaman->buku->update([
-                'status' => 'dipinjam',
-                'available' => 0
+                'status' => $peminjaman->buku->stock > 0 ? 'tersedia' : 'dipinjam',
+                'available' => $peminjaman->buku->stock > 0 ? 1 : 0
             ]);
         }
 
@@ -410,9 +412,11 @@ public function updateBuku(Request $request, $id)
         ]);
 
         if ($peminjaman->buku) {
+            $newStock = ((int) $peminjaman->buku->stock) + 1;
             $peminjaman->buku->update([
-                'status' => 'tersedia',
-                'available' => 1
+                'stock' => $newStock,
+                'status' => $newStock > 0 ? 'tersedia' : 'dipinjam',
+                'available' => $newStock > 0 ? 1 : 0
             ]);
         }
 

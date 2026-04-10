@@ -61,6 +61,8 @@
             align-items: center;
             gap: 20px;
             color: white;
+            overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         .user-box img {

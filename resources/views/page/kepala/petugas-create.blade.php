@@ -58,6 +58,8 @@
             align-items: center;
             gap: 20px;
             color: white;
+            overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         .user-box img {
@@ -183,7 +185,7 @@
             </div>
             <div class="content">
                 <div class="form-card">
-                    <h2>Tambah Akun Petugas / Kepala</h2>
+                    <h2>Tambah Akun Petugas</h2>
                     @if ($errors->any())
                         <div style="color:#f43f5e;margin-bottom:10px;">
                             <ul>
@@ -198,11 +200,6 @@
                                 value="{{ old('name') }}" required></div>
                         <div class="form-group"><label>Email</label><input type="email" name="email"
                                 value="{{ old('email') }}" required></div>
-                        <div class="form-group"><label>Role</label><select name="role"
-                                style="width:100%;padding:10px;border-radius:6px;border:none;background:#334155;color:white;">
-                                <option value="petugas" selected>Petugas</option>
-                                <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Kepala</option>
-                            </select></div>
                         <div class="form-group"><label>Password</label><input type="password" name="password" required>
                         </div>
                         <div class="form-group"><label>Konfirmasi Password</label><input type="password"

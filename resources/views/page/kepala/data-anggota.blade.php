@@ -128,6 +128,7 @@
             padding: 30px;
             color: white;
             overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         .table-card {
@@ -193,7 +194,7 @@
                     <h3 class="judul">Sistem<br>Perpustakaan<br>Digital</h3>
                 </div>
                 <div class="user-box">
-                    <img src="{{ asset('images/profil.png') }}" alt="admin">
+                    <img src="{{ asset('images/profil.png') }}" alt="kepala">
                     <span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
                 </div>
             </div>

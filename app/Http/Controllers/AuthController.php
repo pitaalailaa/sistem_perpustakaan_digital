@@ -26,7 +26,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            if (auth()->user()->role === 'admin') {
+            if (auth()->user()->role === 'kepala') {
                 return redirect()->route('kepala.dashboard');
             }
             if (auth()->user()->role === 'petugas') {

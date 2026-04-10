@@ -138,6 +138,7 @@
             overflow-x: hidden;
             /* 🔒 LARANG GESER HORIZONTAL */
             width: 100%;
+            padding-bottom: 60px;
         }
 
         /* TABLE - HAPUS MARGIN LEFT YANG BIKIN GESER */

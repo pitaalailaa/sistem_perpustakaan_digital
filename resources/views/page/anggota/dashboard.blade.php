@@ -130,6 +130,7 @@
             padding: 30px;
             color: white;
             overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         /* TITLE */
@@ -358,7 +359,7 @@
                                     <td
                                         class="{{ $pinjam->status === 'kembali' ? 'status-kembali' : 'status-pinjam' }}">
                                         {{ ucfirst($pinjam->status) }}</td>
-                                    <td>Rp. {{ number_format($pinjam->denda ?? 0, 0, ',', '.') }}</td>
+                                    <td>Rp. {{ number_format($pinjam->outstanding_denda, 0, ',', '.') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -372,7 +373,7 @@
                 <div class="rules-box">
 
                     <ol>
-                        <li>waktu peminjaman maksimal 3 hari.</li>
+                        <li>waktu peminjaman maksimal 5 hari.</li>
                         <li>jika pengembalian buku lebih dari waktu yang ditentukan akan diberikan denda rp.3.000/hari.
                         </li>
                         <li>jika terlambat mengembalikan buku dan mendapat denda, maka wajib langsung membayar.</li>

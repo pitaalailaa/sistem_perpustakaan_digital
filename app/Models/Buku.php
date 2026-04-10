@@ -23,6 +23,7 @@ class Buku extends Model
         'deskripsi',
         'cover',
         'available',
+        'stock',
     ];
 
     public function getTitleAttribute()
@@ -70,9 +71,12 @@ class Buku extends Model
     public function getStatusAttribute($value)
     {
         if (!empty($value)) {
+            if (($this->attributes['stock'] ?? 0) <= 0) {
+                return 'dipinjam';
+            }
             return $value;
         }
-        return ($this->attributes['available'] ?? 0) ? 'tersedia' : 'dipinjam';
+        return ($this->attributes['stock'] ?? ($this->attributes['available'] ?? 0)) > 0 ? 'tersedia' : 'dipinjam';
     }
 
     public function setStatusAttribute($value)

@@ -129,6 +129,7 @@
             overflow-y: auto;
             overflow-x: hidden; /* 🔒 NO HORIZONTAL SCROLL */
             width: 100%;
+            padding-bottom: 60px;
         }
 
         /* TITLE */

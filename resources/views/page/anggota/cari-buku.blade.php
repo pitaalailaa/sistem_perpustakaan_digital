@@ -130,6 +130,8 @@
             color: white;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         .cari-buku-title {
@@ -242,6 +244,11 @@
             color: white;
         }
 
+        .inline-form {
+            display: inline;
+            margin: 0;
+        }
+
         /* DISABLED */
         button[disabled] {
             opacity: 0.8;
@@ -295,6 +302,18 @@
 
                 <div class="cari-buku-title">Cari Buku</div>
 
+                @if (session('success'))
+                    <div style="background:#14532d;color:#dcfce7;padding:12px 16px;border-radius:10px;margin-bottom:16px;">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div style="background:#7f1d1d;color:#fee2e2;padding:12px 16px;border-radius:10px;margin-bottom:16px;">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <form action="{{ route('buku') }}" method="GET" class="search-form">
                     <input type="text" name="q" value="{{ $q ?? '' }}"
                         placeholder="Cari judul atau penulis...">
@@ -320,16 +339,21 @@
                                 <div class="book-title">{{ $buku->judul }}</div>
                                 <div class="book-author">{{ $buku->penulis }}</div>
                                 <div class="book-author">Kategori: {{ $buku->kategori ?? '-' }}</div>
+                                <div class="book-author">Stok: {{ $buku->stock ?? 0 }}</div>
 
                                 @php
                                     $pinjam = $userPeminjaman[$buku->id] ?? null;
+                                    $isLimitReached = ($activeLoanCount ?? 0) >= 2;
+                                    $isOutOfStock = ($buku->stock ?? 0) < 1;
                                 @endphp
 
                                 <div>
                                     @if ($pinjam)
                                         <span style="color:orange;">{{ $pinjam->status }}</span>
-                                    @elseif(in_array($buku->id, $requestedBooks))
+                                    @elseif($isOutOfStock)
                                         <span class="not-available">Tidak Tersedia</span>
+                                    @elseif($isLimitReached)
+                                        <span class="not-available">Batas 2 Buku Tercapai</span>
                                     @else
                                         <span class="available">Tersedia</span>
                                     @endif
@@ -342,15 +366,15 @@
                                     </a>
 
                                     @if ($pinjam)
-                                        <button class="btn-small btn-disabled" disabled>{{ $pinjam->status }}</button>
-                                    @elseif(in_array($buku->id, $requestedBooks))
+                                        <button class="btn-small btn-disabled" disabled>Buku Ini Sedang Dipinjam</button>
+                                    @elseif($isOutOfStock)
                                         <button class="btn-small btn-disabled" disabled>Tidak Tersedia</button>
+                                    @elseif($isLimitReached)
+                                        <button class="btn-small btn-disabled" disabled>Batas 2 Buku</button>
                                     @else
-                                        <a href="{{ route('buku.pinjam.form', $buku->id) }}"
-                                            class="btn-small btn-pinjam">
-                                            Pinjam
-                                        </a>
-
+                                        <form method="POST" action="{{ route('buku.pinjam', $buku->id) }}" class="inline-form">
+                                            @csrf
+                                            <button type="submit" class="btn-small btn-pinjam">Pinjam</button>
                                         </form>
                                     @endif
 

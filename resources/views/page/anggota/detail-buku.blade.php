@@ -150,6 +150,8 @@
             display: flex;
             gap: 30px;
             align-items: flex-start;
+            overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         /* Gambar buku */

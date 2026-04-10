@@ -6,10 +6,6 @@
     <meta charset="utf-8">
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
             font-family: sans-serif;
@@ -308,7 +304,7 @@
             @php $role = auth()->user()->role; @endphp
             <div class="sidebar">
                 <a
-                    href="{{ $role === 'petugas' ? route('petugas.dashboard') : ($role === 'admin' ? route('kepala.dashboard') : route('dashboard')) }}">Dashboard</a>
+                    href="{{ $role === 'petugas' ? route('petugas.dashboard') : ($role === 'kepala' ? route('kepala.dashboard') : route('dashboard')) }}">Dashboard</a>
                 <a href="{{ route('biodata') }}">Biodata</a>
 
                 @if ($role === 'anggota')

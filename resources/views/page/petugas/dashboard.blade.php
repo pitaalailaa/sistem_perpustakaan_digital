@@ -134,6 +134,7 @@
             padding: 30px;
             color: white;
             overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         /* TITLE */

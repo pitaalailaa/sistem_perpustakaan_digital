@@ -19,7 +19,7 @@ Route::get('/', function () {
         if (auth()->user()->role === 'petugas') {
             return redirect()->route('petugas.dashboard');
         }
-        if (auth()->user()->role === 'admin') {
+        if (auth()->user()->role === 'kepala') {
             return redirect()->route('kepala.dashboard');
         }
         return redirect()->route('dashboard');
@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/peminjaman', [AnggotaController::class, 'peminjaman'])->name('peminjaman');
     Route::post('/peminjaman/{id}/kembali', [AnggotaController::class, 'kembalikan'])->name('peminjaman.kembali');
+    Route::post('/peminjaman/{id}/bayar-denda', [AnggotaController::class, 'bayarDenda'])->name('peminjaman.bayar-denda');
 
     Route::get('/pengembalian', [AnggotaController::class, 'pengembalian'])->name('pengembalian');
 });
@@ -70,8 +71,6 @@ Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->group(function (
     Route::get('/buku/{id}/edit', [PetugasController::class, 'editBuku'])->name('petugas.buku.edit');
     Route::put('/buku/{id}', [PetugasController::class, 'updateBuku'])->name('petugas.buku.update');
     Route::delete('/buku/{id}', [PetugasController::class, 'destroyBuku'])->name('petugas.buku.destroy');
-    Route::get('/buku/{id}/pinjam', [AnggotaController::class, 'formPinjam'])->name('buku.pinjam.form');
-    Route::post('/buku/{id}/pinjam', [AnggotaController::class, 'pinjam'])->name('buku.pinjam');
 
     // ===== KATEGORI (FIX DI SINI 🔥) =====
     Route::post('/kategori', [PetugasController::class, 'storeKategori'])->name('kategori.store');
@@ -91,7 +90,7 @@ Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->group(function (
 });
 
 // ================= KEPALA =================
-Route::middleware(['auth', 'role:admin'])->prefix('kepala')->group(function () {
+Route::middleware(['auth', 'role:kepala'])->prefix('kepala')->group(function () {
 
     Route::get('/dashboard', [KepalaController::class, 'dashboard'])->name('kepala.dashboard');
 

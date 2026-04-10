@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
 
-      <style>
+    <style>
         body {
             margin: 0;
             font-family: sans-serif;
@@ -127,6 +127,7 @@
             color: #f87171;
             font-weight: bold;
         }
+
 
         /* CONTENT */
         .content {

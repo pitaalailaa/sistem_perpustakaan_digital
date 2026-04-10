@@ -128,6 +128,7 @@
             font-weight: bold;
         }
 
+
         /* CONTENT */
         .content {
             flex: 1;
@@ -136,6 +137,8 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
+            overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         /* PROFILE CARD */

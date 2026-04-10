@@ -24,7 +24,9 @@ class AnggotaController extends Controller
         $totalBuku = Buku::count();
         $dipinjam = Peminjaman::where('user_id', $user->id)->where('status', 'dipinjam')->count();
         $dikembalikan = Peminjaman::where('user_id', $user->id)->where('status', 'kembali')->count();
-        $totalDenda = Peminjaman::where('user_id', $user->id)->sum('denda');
+        $totalDenda = Peminjaman::where('user_id', $user->id)
+            ->get()
+            ->sum('outstanding_denda');
 
         $recentPeminjamans = Peminjaman::with('buku')
             ->where('user_id', $user->id)
@@ -110,20 +112,24 @@ class AnggotaController extends Controller
     $buku = Buku::findOrFail($id);
 
     // ✅ validasi tanggal wajib diisi
-    if (!$request->tanggal_pinjam) {
-        return back()->with('error', 'Tanggal pinjam harus diisi.');
-    }
-
     if ($buku->status !== 'tersedia') {
         return back()->with('error', 'Buku sedang tidak tersedia untuk dipinjam.');
     }
 
-    $existingLoan = Peminjaman::where('user_id', $user->id)
-        ->where('status', 'dipinjam')
-        ->count();
+    if (($buku->stock ?? 0) < 1) {
+        return back()->with('error', 'Stok buku sedang habis.');
+    }
 
-    if ($existingLoan >= 5) {
-        return back()->with('error', 'Anda tidak boleh meminjam lebih dari 5 buku sekaligus.');
+    $existingLoan = Peminjaman::where('user_id', $user->id)
+        ->whereIn('status', ['pending', 'dipinjam', 'request_kembali'])
+        ->get();
+
+    if ($existingLoan->contains('buku_id', (int) $id)) {
+        return back()->with('error', 'Anda masih memiliki pinjaman aktif untuk buku ini.');
+    }
+
+    if ($existingLoan->count() >= 2) {
+        return back()->with('error', 'Anda hanya bisa meminjam maksimal 2 buku berbeda sekaligus.');
     }
 
     $hasExistingRequest = Peminjaman::where('buku_id', $id)
@@ -135,21 +141,57 @@ class AnggotaController extends Controller
     }
 
     // 🔥 HITUNG DUE DATE (5 HARI)
-    $tanggalPinjam = $request->tanggal_pinjam;
-    $dueDate = \Carbon\Carbon::parse($tanggalPinjam)->addDays(5);
+    $tanggalPinjam = Carbon::today();
+    $dueDate = $tanggalPinjam->copy()->addDays(5);
 
     // 🔥 SIMPAN
     Peminjaman::create([
         'user_id' => $user->id,
         'buku_id' => $id,
-        'borrowed_at' => $tanggalPinjam, // dari form
+        'borrowed_at' => $tanggalPinjam,
         'due_date' => $dueDate,
         'status' => 'pending',
         'denda' => 0,
+        'is_denda_paid' => false,
     ]);
 
-    return redirect()->route('buku')->with('success', 'Permintaan peminjaman dikirim.');
+    $stockAfterRequest = max(0, ((int) $buku->stock) - 1);
+    $buku->update([
+        'stock' => $stockAfterRequest,
+        'status' => $stockAfterRequest > 0 ? 'tersedia' : 'dipinjam',
+        'available' => $stockAfterRequest > 0 ? 1 : 0,
+    ]);
+
+    return redirect()->route('buku')->with('success', 'Permintaan peminjaman dikirim. Menunggu persetujuan petugas.');
 }
+
+    /**
+     * Bayar Denda - Menandai denda anggota sebagai lunas jika sudah terlambat
+     */
+    public function bayarDenda($id)
+    {
+        $user = Auth::user();
+
+        $peminjaman = Peminjaman::where('id', $id)
+            ->where('user_id', $user->id)
+            ->firstOrFail();
+
+        if ($peminjaman->is_denda_paid) {
+            return back()->with('info', 'Denda untuk buku ini sudah dibayar.');
+        }
+
+        if ($peminjaman->outstanding_denda <= 0) {
+            return back()->with('info', 'Belum ada denda yang perlu dibayar.');
+        }
+
+        $peminjaman->update([
+            'denda' => $peminjaman->calculated_denda,
+            'is_denda_paid' => true,
+            'denda_paid_at' => now(),
+        ]);
+
+        return back()->with('success', 'Denda berhasil dibayar.');
+    }
 
     /**
      * Kembalikan - Anggota request pengembalian buku (menunggu konfirmasi petugas)

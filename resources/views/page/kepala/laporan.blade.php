@@ -325,7 +325,7 @@ tbody tr:last-child td {
 
       <!-- KANAN -->
       <div class="user-box">
-        <img src="{{ asset('images/profil.png') }}" alt="admin">
+        <img src="{{ asset('images/profil.png') }}" alt="kepala">
         <span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
       </div>
     </div>

@@ -117,7 +117,8 @@
             flex: 1;
             padding: 30px;
             color: white;
-            overflow: auto;
+            overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         .card {

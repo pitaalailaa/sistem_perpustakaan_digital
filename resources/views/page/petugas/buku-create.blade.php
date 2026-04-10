@@ -137,6 +137,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         /* FORM CARD */
@@ -304,11 +306,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Status</label>
-                            <select name="status" required>
-                                <option value="tersedia">tersedia</option>
-                                <option value="dipinjam">dipinjam</option>
-                            </select>
+                            <label>Stok</label>
+                            <input type="number" name="stock" min="0" value="{{ old('stock', 1) }}" required>
                         </div>
 
                         <div class="form-group full">

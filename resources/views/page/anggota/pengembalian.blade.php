@@ -133,6 +133,8 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
+            overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         /* box utama biar center & rapi */
@@ -209,6 +211,21 @@
             color: #34d399;
             font-weight: bold;
         }
+
+        .btn-denda {
+            background: #f59e0b;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-denda[disabled] {
+            background: #64748b;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -267,6 +284,18 @@
 
                     <div class="pengembalian-title">Pengembalian</div>
 
+                    @if (session('success'))
+                        <div style="background:#14532d;color:#dcfce7;padding:12px 16px;border-radius:10px;margin-bottom:16px;">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if (session('error') || session('info'))
+                        <div style="background:#7c2d12;color:#ffedd5;padding:12px 16px;border-radius:10px;margin-bottom:16px;">
+                            {{ session('error') ?? session('info') }}
+                        </div>
+                    @endif
+
                     <table class="pengembalian-table">
                         <thead>
                             <tr>
@@ -277,6 +306,7 @@
                                 <th>Tgl kembali</th>
                                 <th>Status</th>
                                 <th>denda</th>
+                                <th>aksi denda</th>
                             </tr>
                         </thead>
 
@@ -300,11 +330,24 @@
                                         }
                                     @endphp
                                     <td class="{{ $statusClass }}">{{ $statusLabel }}</td>
-                                    <td>Rp. {{ number_format($item->denda ?? 0, 0, ',', '.') }}</td>
+                                    <td>
+                                        Rp. {{ number_format($item->outstanding_denda, 0, ',', '.') }}
+                                        @if ($item->is_denda_paid && $item->denda > 0)
+                                            <div style="color:#22c55e;font-size:12px;margin-top:6px;">Lunas</div>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{{ route('peminjaman.bayar-denda', $item->id) }}">
+                                            @csrf
+                                            <button type="submit" class="btn-denda" {{ $item->can_pay_denda ? '' : 'disabled' }}>
+                                                Bayar Denda
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7">Belum ada data pengembalian.</td>
+                                    <td colspan="8">Belum ada data pengembalian.</td>
                                 </tr>
                             @endforelse
                         </tbody>

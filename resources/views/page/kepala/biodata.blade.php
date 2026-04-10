@@ -139,6 +139,8 @@
             align-items: flex-start;
             padding: 40px;
             color: white;
+            overflow-y: auto;
+            padding-bottom: 60px;
         }
 
         /* CARD */

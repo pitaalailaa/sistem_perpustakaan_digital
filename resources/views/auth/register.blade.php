@@ -129,8 +129,8 @@
 
         <!-- CARD -->
         <div class="card">
-            <h3>Register</h3>
-            <p>Buat akun untuk mengakses Sistem Perpustakaan Digital</p>
+            <h3>Register Anggota</h3>
+            <p>Buat akun anggota, lalu login memakai email dan password yang sudah didaftarkan</p>
 
             <form method="POST" action="/register">
                 @csrf
