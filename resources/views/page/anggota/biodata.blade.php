@@ -120,7 +120,7 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #ff0404;
             font-weight: bold;
         }
 
@@ -234,12 +234,17 @@
 
         .form-group input {
             width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: none;
+            padding: 12px;
+            margin-top: 6px;
+
             border-radius: 6px;
-            background: #334155;
+            border: 1px solid transparent;
+
+            background: #0f172a;
+            /* lebih gelap & elegan */
             color: white;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
         }
 
         .form-group input:focus {
@@ -250,7 +255,7 @@
         /* BUTTON */
         .btn {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: #3b82f6;
             border: none;
             border-radius: 6px;

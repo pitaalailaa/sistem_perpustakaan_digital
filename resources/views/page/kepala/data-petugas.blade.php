@@ -119,99 +119,212 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #fb0808;
             font-weight: bold;
         }
+
+        /* ================= CONTENT ================= */
 
         .content {
             flex: 1;
             padding: 30px;
             color: white;
+            overflow-y: auto;
         }
 
+        /* TITLE */
+        .table-card h2 {
+            text-align: center;
+            color: #3b82f6;
+            margin-bottom: 5px;
+        }
+
+        .table-card p {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        /* ACTION BAR */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        /* BUTTON */
         .btn-tambah {
-            background: #2563eb;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            margin-bottom: 12px;
+            transition: 0.3s;
         }
 
+        .btn-tambah:hover {
+            transform: translateY(-2px);
+        }
+
+        /* TABLE */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
             background: #1e293b;
             border-radius: 12px;
             overflow: hidden;
+            margin-top: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         th,
         td {
-            padding: 12px;
+            padding: 14px;
             text-align: center;
         }
 
         th {
             background: #334155;
             color: #e2e8f0;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        tr:not(:last-child) {
+            border-bottom: 1px solid #475569;
+        }
+
+        tr:hover {
+            background: #273449;
+        }
+
+        /* BADGE */
+        .badge {
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: bold;
+            background: #6366f1;
+        }
+
+        /* EMPTY */
+        .empty {
+            color: #94a3b8;
+        }
+
+        /* INFO */
+        .info-text {
+            color: #94a3b8;
+            font-size: 13px;
         }
     </style>
 </head>
 
 <body>
+
     <div class="background">
+
+        <!-- HEADER -->
         <div class="header">
             <div class="header-content">
                 <div class="left-box">
-                    <div class="logo"><img src="{{ asset('images/logoperpus.png') }}"></div>
-                    <h3 class="judul">Sistem<br>Perpustakaan<br>Digital</h3>
+                    <div class="logo">
+                        <img src="{{ asset('images/logoperpus.png') }}">
+                    </div>
+                    <h3 class="judul">
+                        Sistem <br> Perpustakaan <br> Digital
+                    </h3>
                 </div>
-                <div class="user-box"><img src="{{ asset('images/profil.png') }}"><span>{{ auth()->user()->name }}
-                        ({{ auth()->user()->role }})</span></div>
+
+                <div class="user-box">
+                    <img src="{{ asset('images/profil.png') }}">
+                    <span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
+                </div>
             </div>
         </div>
+
+        <!-- MAIN -->
         <div class="main">
+
+            <!-- SIDEBAR -->
             <div class="sidebar">
                 <a href="{{ route('kepala.dashboard') }}">Dashboard</a>
                 <a href="{{ route('kepala.anggota') }}">Data Anggota</a>
                 <a href="{{ route('kepala.petugas') }}">Data Petugas</a>
                 <a href="{{ route('kepala.buku') }}">Data Buku</a>
                 <a href="{{ route('kepala.laporan') }}">Laporan</a>
-                <a href="{{ route('kepala.biodata') }}" class="active">Biodata</a>
+                <a href="{{ route('kepala.biodata') }}">Biodata</a>
                 <div class="divider"></div>
-                <div class="logout"><a href="/logout">Logout</a></div>
+                <div class="logout">
+                    <a href="/logout">Logout</a>
+                </div>
             </div>
+
+            <!-- CONTENT -->
             <div class="content">
-                <h2 style="text-align:center;">Data Petugas</h2>
-                <a href="{{ route('kepala.petugas.create') }}"><button class="btn-tambah">+ Tambah Petugas</button></a>
-                @if (session('success'))
-                    <p style="text-align:center;color:#4ade80;">{{ session('success') }}</p>
-                @endif
-                <table>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Dibuat</th>
-                    </tr>
-                    @foreach ($petugas as $i => $p)
+
+                <div class="table-card">
+
+                    <h2>Data Petugas</h2>
+                    <p>Daftar petugas yang mengelola sistem perpustakaan.</p>
+
+                    <div class="action-bar">
+                        <a href="{{ route('kepala.petugas.create') }}">
+                            <button class="btn-tambah">+ Tambah Petugas</button>
+                        </a>
+
+                        <span class="info-text">
+                            Total: {{ count($petugas) }} petugas
+                        </span>
+                    </div>
+
+                    @if (session('success'))
+                        <p style="text-align:center;color:#4ade80;">
+                            {{ session('success') }}
+                        </p>
+                    @endif
+
+                    <table>
                         <tr>
-                            <td>{{ $i + 1 }}</td>
-                            <td>{{ $p->name }}</td>
-                            <td>{{ $p->email }}</td>
-                            <td>{{ ucfirst($p->role) }}</td>
-                            <td>{{ $p->created_at->format('Y-m-d') }}</td>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Dibuat</th>
                         </tr>
-                    @endforeach
-                </table>
+
+                        @forelse ($petugas as $i => $p)
+                            <tr>
+                                <td>{{ $i + 1 }}</td>
+                                <td>{{ $p->name }}</td>
+                                <td>{{ $p->email }}</td>
+                                <td>
+                                    <span class="badge">
+                                        {{ ucfirst($p->role) }}
+                                    </span>
+                                </td>
+                                <td>{{ $p->created_at->format('d M Y') }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="empty">
+                                    Belum ada data petugas.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </table>
+
+                </div>
+
             </div>
+
         </div>
     </div>
+
 </body>
 
 </html>

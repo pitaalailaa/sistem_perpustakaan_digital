@@ -6,7 +6,6 @@
     <meta charset="utf-8">
 
     <style>
-
         body {
             margin: 0;
             font-family: sans-serif;
@@ -106,14 +105,10 @@
             background: #335077;
         }
 
-        .sidebar a.active {
-            background: #3b82f6;
-        }
-
         /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 388px 2px;
+            margin: 390px 10px;
         }
 
         /* logout bawah */
@@ -125,7 +120,7 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #fe0505;
             font-weight: bold;
         }
 

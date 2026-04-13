@@ -4,8 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-
-   <style>
+    <style>
         body {
             margin: 0;
             font-family: sans-serif;
@@ -40,17 +39,14 @@
             padding: 0 20px;
         }
 
-        /* KIRI (LOGO + JUDUL) */
         .left-box {
             display: flex;
             align-items: center;
             gap: 5px;
-            /* 🔥 mepet ke logo */
         }
 
         .logo img {
             width: 90px;
-            height: auto;
         }
 
         .judul {
@@ -60,7 +56,6 @@
             margin: 0;
         }
 
-        /* USER */
         .user-box {
             display: flex;
             align-items: center;
@@ -105,13 +100,11 @@
             background: #335077;
         }
 
-        /* divider */
         .divider {
             border-top: 1px solid #475569;
             margin: 440px 10px;
         }
 
-        /* logout bawah */
         .logout {
             position: absolute;
             bottom: 2px;
@@ -120,36 +113,38 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #fe0404;
             font-weight: bold;
         }
 
-        /* === PEMINJAMAN BESAR + TENGAH === */
-
+        /* CONTENT */
         .content {
             flex: 1;
-            padding: 30px;
+            padding: 20px 40px;
             color: white;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
             overflow-y: auto;
-            padding-bottom: 60px;
         }
 
-        .peminjaman-box.peminjaman-box {
-            width: 100%;
-            margin: 0;
-        }
-
-        .peminjaman-title {
+        /* HEADER HALAMAN */
+        .page-header {
             text-align: center;
-            margin-bottom: 25px;
-            font-size: 26px;
-            font-weight: bold;
-            color: #3b82f6;
+            margin-bottom: 30px;
         }
 
+        .page-header h2 {
+            color: #3b82f6;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        /* TABLE */
         .peminjaman-table {
             width: 100%;
             border-collapse: collapse;
@@ -157,17 +152,15 @@
             border-radius: 14px;
             overflow: hidden;
             border: 2px solid #3b82f6;
-            font-size: 15px;
         }
 
         .peminjaman-table th {
             background: #0f172a;
-            padding: 16px;
-            font-size: 15px;
+            padding: 14px;
         }
 
         .peminjaman-table td {
-            padding: 16px;
+            padding: 14px;
             text-align: center;
         }
 
@@ -175,19 +168,21 @@
             border-bottom: 1px solid #334155;
         }
 
+        /* STATUS */
         .status-dipinjam {
             color: #3b82f6;
             font-weight: bold;
         }
 
+        /* BUTTON */
         .btn-kembali {
             background: #3b82f6;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 8px;
             color: white;
             cursor: pointer;
-            font-size: 14px;
+            margin-bottom: 6px;
         }
 
         .btn-kembali:hover {
@@ -197,12 +192,10 @@
         .btn-denda {
             background: #f59e0b;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 8px;
             color: white;
             cursor: pointer;
-            font-size: 14px;
-            margin-top: 8px;
         }
 
         .btn-denda[disabled] {
@@ -220,29 +213,21 @@
         <div class="header">
             <div class="header-content">
 
-                <!-- KIRI -->
                 <div class="left-box">
                     <div class="logo">
-                        <img src="{{ asset('images/logoperpus.png') }}" alt="Logo">
+                        <img src="{{ asset('images/logoperpus.png') }}">
                     </div>
-
-                    <h3 class="judul">
-                        Sistem <br>
-                        Perpustakaan <br>
-                        Digital
-                    </h3>
+                    <h3 class="judul">Sistem<br>Perpustakaan<br>Digital</h3>
                 </div>
 
-                <!-- KANAN -->
                 <div class="user-box">
-                    <img src="{{ asset('images/profil.png') }}" alt="anggota">
+                    <img src="{{ asset('images/profil.png') }}">
                     <span>{{ $user->name ?? 'Anggota' }}</span>
                 </div>
 
             </div>
         </div>
 
-        <!-- MAIN -->
         <div class="main">
 
             <!-- SIDEBAR -->
@@ -253,7 +238,6 @@
                 <a href="{{ route('peminjaman') }}">Peminjaman</a>
                 <a href="{{ route('pengembalian') }}">Pengembalian</a>
 
-
                 <div class="divider"></div>
 
                 <div class="logout">
@@ -261,105 +245,94 @@
                 </div>
             </div>
 
+            <!-- CONTENT -->
             <div class="content">
 
-                <div class="peminjaman-box">
-
-                    <div class="peminjaman-title">Peminjaman</div>
-
-                    @if (session('success'))
-                        <div style="background:#14532d;color:#dcfce7;padding:12px 16px;border-radius:10px;margin-bottom:16px;">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    @if (session('error') || session('info'))
-                        <div style="background:#7c2d12;color:#ffedd5;padding:12px 16px;border-radius:10px;margin-bottom:16px;">
-                            {{ session('error') ?? session('info') }}
-                        </div>
-                    @endif
-
-                    <table class="peminjaman-table">
-                        <thead>
-                            <tr>
-                                <th>nama</th>
-                                <th>kelas</th>
-                                <th>judul buku</th>
-                                <th>tgl pinjam</th>
-                                <th>tgl kembali</th>
-                                <th>status</th>
-                                <th>denda</th>
-                                <th>aksi</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @forelse($peminjamans as $item)
-                                <tr>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->kelas ?? 'Tidak diisi' }}</td>
-                                    <td>{{ $item->buku->judul ?? '-' }}</td>
-                                    <td>{{ $item->borrowed_at ?? '-' }}</td>
-                                    <td>{{ $item->due_date ?? '-' }}</td>
-                                    <td class="status-{{ $item->status }}">
-                                        {{ ucfirst(str_replace('_', ' ', $item->status)) }}</td>
-                                    <td>
-                                        Rp. {{ number_format($item->outstanding_denda, 0, ',', '.') }}
-                                        @if ($item->is_denda_paid && $item->denda > 0)
-                                            <div style="color:#22c55e;font-size:12px;margin-top:6px;">Lunas</div>
-                                        @elseif($item->outstanding_denda > 0)
-                                            <div style="color:#f59e0b;font-size:12px;margin-top:6px;">Terlambat</div>
-                                        @else
-                                            <div style="color:#94a3b8;font-size:12px;margin-top:6px;">Belum ada denda</div>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($item->status === 'dipinjam')
-                                            <form method="POST" action="{{ route('peminjaman.kembali', $item->id) }}">
-                                                @csrf
-                                                <button type="submit" class="btn-kembali">Ajukan Pengembalian</button>
-                                            </form>
-                                            <form method="POST" action="{{ route('peminjaman.bayar-denda', $item->id) }}">
-                                                @csrf
-                                                <button type="submit" class="btn-denda" {{ $item->can_pay_denda ? '' : 'disabled' }}>
-                                                    Bayar Denda
-                                                </button>
-                                            </form>
-                                        @elseif($item->status === 'request_kembali')
-                                            <div>Menunggu persetujuan petugas</div>
-                                            <form method="POST" action="{{ route('peminjaman.bayar-denda', $item->id) }}">
-                                                @csrf
-                                                <button type="submit" class="btn-denda" {{ $item->can_pay_denda ? '' : 'disabled' }}>
-                                                    Bayar Denda
-                                                </button>
-                                            </form>
-                                        @elseif($item->status === 'pending')
-                                            Menunggu persetujuan pinjam
-                                        @else
-                                            <div>Selesai</div>
-                                            <form method="POST" action="{{ route('peminjaman.bayar-denda', $item->id) }}">
-                                                @csrf
-                                                <button type="submit" class="btn-denda" {{ $item->can_pay_denda ? '' : 'disabled' }}>
-                                                    Bayar Denda
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8">Belum ada peminjaman.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-
-                    </table>
-
+                <div class="page-header">
+                    <h2>Data Peminjaman</h2>
+                    <p>Daftar buku yang sedang atau pernah kamu pinjam.</p>
                 </div>
+
+                @if (session('success'))
+                    <div style="background:#14532d;color:#dcfce7;padding:12px;border-radius:10px;margin-bottom:15px;">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error') || session('info'))
+                    <div style="background:#7c2d12;color:#ffedd5;padding:12px;border-radius:10px;margin-bottom:15px;">
+                        {{ session('error') ?? session('info') }}
+                    </div>
+                @endif
+
+                <table class="peminjaman-table">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Kelas</th>
+                            <th>Judul Buku</th>
+                            <th>Tanggal Pinjam</th>
+                            <th>Tanggal Kembali</th>
+                            <th>Status</th>
+                            <th>Denda</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @forelse($peminjamans as $item)
+                            <tr>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->kelas ?? '-' }}</td>
+                                <td>{{ $item->buku->judul ?? '-' }}</td>
+                                <td>{{ $item->borrowed_at ?? '-' }}</td>
+                                <td>{{ $item->due_date ?? '-' }}</td>
+
+                                <td class="status-{{ $item->status }}">
+                                    {{ ucfirst(str_replace('_', ' ', $item->status)) }}
+                                </td>
+
+                                <td>
+                                    Rp {{ number_format($item->outstanding_denda, 0, ',', '.') }}
+                                </td>
+
+                                <td>
+                                    @if ($item->status === 'dipinjam')
+                                        <form method="POST" action="{{ route('peminjaman.kembali', $item->id) }}">
+                                            @csrf
+                                            <button class="btn-kembali">Kembalikan</button>
+                                        </form>
+
+                                        <form method="POST" action="{{ route('peminjaman.bayar-denda', $item->id) }}">
+                                            @csrf
+                                            <button class="btn-denda" {{ $item->can_pay_denda ? '' : 'disabled' }}>
+                                                Bayar
+                                            </button>
+                                        </form>
+
+                                    @elseif($item->status === 'pending')
+                                        Menunggu Persetujuan
+
+                                    @else
+                                        Selesai
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="8">Belum ada peminjaman.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+
+                </table>
 
             </div>
 
         </div>
+
+    </div>
+
 </body>
 
 </html>

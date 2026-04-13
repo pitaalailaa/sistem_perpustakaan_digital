@@ -105,14 +105,10 @@
             background: #335077;
         }
 
-        .sidebar a.active {
-            background: #3b82f6;
-        }
-
         /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 388px 2px;
+            margin: 390px 10px;
         }
 
         /* logout bawah */
@@ -124,10 +120,9 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #fb0202;
             font-weight: bold;
         }
-
 
         /* CONTENT */
         .content {
@@ -300,7 +295,7 @@
                         </div>
                     </div>
 
-                    <h3>📋 Informasi Petugas</h3>
+                    <h3> Informasi Petugas</h3>
 
                     <div class="profile-info">
 

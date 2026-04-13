@@ -105,14 +105,10 @@
             background: #335077;
         }
 
-        .sidebar a.active {
-            background: #3b82f6;
-        }
-
         /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 388px 2px;
+            margin: 390px 10px;
         }
 
         /* logout bawah */
@@ -124,7 +120,7 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #fd0505;
             font-weight: bold;
         }
 
@@ -201,37 +197,38 @@
             color: white;
         }
 
-        /* TABLE */
+       /* TABLE */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
             background: #1e293b;
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
-        th,
-        td {
+        th, td {
             padding: 14px;
             text-align: center;
         }
 
         th {
-            background: #334155;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: #0f172a;
+            color: #cbd5f5;
+            font-size: 13px;
         }
 
         tr:not(:last-child) {
-            border-bottom: 1px solid #475569;
+            border-bottom: 1px solid #334155;
         }
 
-        /* hover row */
         tr:hover {
-            background: #273449;
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
         }
 
         /* status */

@@ -9,11 +9,17 @@
     <style>
         body {
             margin: 0;
+            padding: 0;
             font-family: Arial, Helvetica, sans-serif;
+
             height: 100vh;
+            /* pakai ini lagi */
             display: flex;
             justify-content: center;
             align-items: center;
+
+            overflow: hidden;
+            /* ⬅️ ini kunci semua scroll */
             background: linear-gradient(225deg, #0f172a 25%, #1e3a8a 50%, #0f172a 75%);
         }
 

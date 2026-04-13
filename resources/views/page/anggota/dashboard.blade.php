@@ -120,7 +120,7 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #fc0505;
             font-weight: bold;
         }
 
@@ -128,7 +128,7 @@
         .content {
             flex: 1;
             padding: 30px;
-            color: white;
+            color:white;
             overflow-y: auto;
             padding-bottom: 60px;
         }
@@ -139,7 +139,7 @@
         }
 
         .content p {
-            color: #94a3b8;
+            color:#94a3b8;
             margin-bottom: 20px;
         }
 
@@ -249,14 +249,14 @@
         .rules-box h3 {
             margin-bottom: 12px;
             color: #3b82f6;
-            font-size: 18px;
+            font-size: 20px;
         }
 
         .rules-box ol {
             padding-left: 20px;
             color: #e2e8f0;
             line-height: 1.8;
-            font-size: 14px;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -338,7 +338,20 @@
                     </div>
                 </div>
 
-                @if (isset($recentPeminjamans) && $recentPeminjamans->isNotEmpty())
+                <h3>Informasi Aturan Peminjaman</h3>
+
+                <div class="rules-box">
+
+                    <ol>
+                         <li>Setiap Anggota hanya boleh meminjam maksimal 2 buku dalam waktu bersamaan.</li>
+                        <li>Waktu peminjaman maksimal 5 hari.</li>
+                        <li>Jika pengembalian buku lebih dari waktu yang ditentukan akan diberikan denda rp.3.000/hari.
+                        </li>
+                        <li>Jika terlambat mengembalikan buku dan mendapat denda, maka wajib langsung membayar.</li>
+                    </ol>
+                </div>
+
+                   @if (isset($recentPeminjamans) && $recentPeminjamans->isNotEmpty())
                     <h3>Riwayat Peminjaman</h3>
                     <table>
                         <thead>
@@ -368,14 +381,4 @@
                     <p>Belum ada data peminjaman untuk akun ini.</p>
                 @endif
 
-                <h3>Informasi Aturan Peminjaman</h3>
-
-                <div class="rules-box">
-
-                    <ol>
-                        <li>waktu peminjaman maksimal 5 hari.</li>
-                        <li>jika pengembalian buku lebih dari waktu yang ditentukan akan diberikan denda rp.3.000/hari.
-                        </li>
-                        <li>jika terlambat mengembalikan buku dan mendapat denda, maka wajib langsung membayar.</li>
-                    </ol>
-                </div>
+                

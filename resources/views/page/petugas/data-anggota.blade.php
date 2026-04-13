@@ -105,14 +105,10 @@
             background: #335077;
         }
 
-        .sidebar a.active {
-            background: #3b82f6;
-        }
-
         /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 388px 2px;
+            margin: 390px 10px;
         }
 
         /* logout bawah */
@@ -124,10 +120,9 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #ff0707;
             font-weight: bold;
         }
-
 
         /* CONTENT */
         .content {
@@ -136,50 +131,59 @@
             color: white;
         }
 
-        /* TABLE KHUSUS DATA BUKU */
+        /* === TABLE CLEAN CONSISTENT === */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 30px;
             background: #1e293b;
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(59, 130, 246, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         }
 
+        /* cell */
         th,
         td {
-            padding: 16px 14px;
+            padding: 14px;
             text-align: center;
         }
 
+        /* header */
         th {
-            background: #334155;
-            font-size: 16px;
-            color: #e2e8f0;
+            background: #0f172a;
+            color: #cbd5f5;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
+        /* garis antar row */
         tr:not(:last-child) {
-            border-bottom: 1px solid #475569;
+            border-bottom: 1px solid #334155;
         }
 
+        /* zebra biar enak dibaca */
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* hover halus */
         tr:hover {
-            background: #273449;
+            background: rgba(59, 130, 246, 0.08);
         }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
             table {
-                font-size: 14px;
+                font-size: 13px;
             }
 
             th,
             td {
-                padding: 12px 8px;
+                padding: 10px 6px;
             }
         }
 
@@ -250,7 +254,7 @@
         <!-- MAIN -->
         <div class="main">
 
-           <!-- SIDEBAR -->
+            <!-- SIDEBAR -->
             <div class="sidebar">
                 <a href="{{ route('petugas.dashboard') }}">Dashboard</a>
                 <a href="{{ route('petugas.biodata') }}">Biodata</a>
@@ -271,7 +275,7 @@
             <div class="content">
                 <h2 style="text-align:center; color:#3b82f6; margin-bottom:10px; font-size:32px;">Data Anggota</h2>
                 <p style="text-align:center; color:#94a3b8; margin-bottom:30px; font-size:16px;">
-                    Daftar anggota perpustakaan yang terdaftar dalam sistem.
+                    Data anggota perpustakaan yang terdaftar dalam sistem.
                 </p>
 
                 <table>

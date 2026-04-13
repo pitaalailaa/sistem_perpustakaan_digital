@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <title>Data Kategori</title>
+
     <style>
         body {
             margin: 0;
@@ -19,11 +19,13 @@
             overflow: hidden;
         }
 
+        /* BACKGROUND */
         .background {
             background-color: #051031;
             min-height: 100vh;
         }
 
+        /* HEADER */
         .header {
             width: 100%;
             height: 100px;
@@ -38,10 +40,12 @@
             padding: 0 20px;
         }
 
+        /* KIRI (LOGO + JUDUL) */
         .left-box {
             display: flex;
             align-items: center;
             gap: 5px;
+            /* 🔥 mepet ke logo */
         }
 
         .logo img {
@@ -56,13 +60,12 @@
             margin: 0;
         }
 
+        /* USER */
         .user-box {
             display: flex;
             align-items: center;
             gap: 20px;
             color: white;
-            overflow-y: auto;
-            padding-bottom: 60px;
         }
 
         .user-box img {
@@ -71,16 +74,19 @@
             border-radius: 50%;
         }
 
+        /* LAYOUT */
         .main {
             display: flex;
             height: calc(100vh - 100px);
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 270px;
             background-color: #170a6b40;
-            padding-top: 20px;
+            padding-top: 32px;
             position: relative;
+            margin-top: 6px;
         }
 
         .sidebar a {
@@ -99,11 +105,13 @@
             background: #335077;
         }
 
+        /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 460px 10px;
+            margin: 390px 10px;
         }
 
+        /* logout bawah */
         .logout {
             position: absolute;
             bottom: 2px;
@@ -112,7 +120,7 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #ff0303;
             font-weight: bold;
         }
 

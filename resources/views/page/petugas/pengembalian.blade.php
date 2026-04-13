@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -17,13 +18,11 @@
             overflow: hidden;
         }
 
-        /* BACKGROUND */
         .background {
             background-color: #051031;
             min-height: 100vh;
         }
 
-        /* HEADER */
         .header {
             width: 100%;
             height: 100px;
@@ -38,7 +37,6 @@
             padding: 0 20px;
         }
 
-        /* KIRI (LOGO + JUDUL) */
         .left-box {
             display: flex;
             align-items: center;
@@ -47,17 +45,14 @@
 
         .logo img {
             width: 90px;
-            height: auto;
         }
 
         .judul {
             color: white;
             font-size: 20px;
             line-height: 1.2;
-            margin: 0;
         }
 
-        /* USER */
         .user-box {
             display: flex;
             align-items: center;
@@ -71,13 +66,11 @@
             border-radius: 50%;
         }
 
-        /* LAYOUT */
         .main {
             display: flex;
             height: calc(100vh - 100px);
         }
 
-        /* SIDEBAR */
         .sidebar {
             width: 270px;
             background-color: #170a6b40;
@@ -102,13 +95,11 @@
             background: #335077;
         }
 
-        /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 388px 2px;
+            margin: 390px 10px;
         }
 
-        /* logout */
         .logout {
             position: absolute;
             bottom: 2px;
@@ -117,61 +108,74 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #ff0404;
             font-weight: bold;
         }
 
-        /* CONTENT - KUNCI TOTAL! */
+        /* CONTENT */
         .content {
             flex: 1;
             padding: 30px;
             color: white;
             overflow-y: auto;
-            overflow-x: hidden; /* 🔒 NO HORIZONTAL SCROLL */
-            width: 100%;
-            padding-bottom: 60px;
+            overflow-x: hidden;
         }
 
-        /* TITLE */
         .content h2 {
             text-align: center;
-            margin-bottom: 20px;
-            color: white;
+            font-size: 28px;
+            margin-bottom: 5px;
+            color: #3b82f6;
         }
 
-        .content h3 {
+        .content p {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+
+        .section-title {
             margin-top: 30px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
         }
 
-        /* TABLE - FULL WIDTH & RESPONSIVE */
+        .permintaan {
+            color: #facc15;
+        }
+
+        .riwayat {
+            color: #38bdf8;
+        }
+
+        /* TABLE */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
             background: #1e293b;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            table-layout: fixed; /* 🔒 TABLE GAK MELEBAR */
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         th, td {
-            padding: 12px 8px;
+            padding: 14px;
             text-align: center;
-            font-size: 13px;
         }
 
         th {
-            background: #334155;
-            font-size: 13px;
+            background: #0f172a;
             color: #e2e8f0;
+            font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         tr:not(:last-child) {
-            border-bottom: 1px solid #475569;
+            border-bottom: 1px solid #334155;
         }
 
         tr:hover {
@@ -179,7 +183,7 @@
         }
 
         /* BUTTON */
-        button {
+        .btn-konfirmasi {
             background: #22c55e;
             border: none;
             padding: 8px 12px;
@@ -187,19 +191,18 @@
             color: white;
             cursor: pointer;
             font-size: 12px;
-            transition: 0.3s;
         }
 
-        button:hover {
+        .btn-konfirmasi:hover {
             background: #16a34a;
         }
 
         /* STATUS */
         .status-badge {
             background: #22c55e;
-            padding: 4px 8px;
+            padding: 5px 10px;
             border-radius: 6px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: bold;
         }
 
@@ -208,131 +211,127 @@
             color: #f59e0b;
             font-weight: bold;
         }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            th, td {
-                padding: 8px 4px;
-                font-size: 11px;
-            }
-            .sidebar {
-                width: 220px;
-            }
-        }
     </style>
 </head>
 
 <body>
-    <div class="background">
 
-        <!-- HEADER -->
-        <div class="header">
-            <div class="header-content">
-                <div class="left-box">
-                    <div class="logo">
-                        <img src="{{ asset('images/logoperpus.png') }}" alt="Logo">
-                    </div>
-                    <h3 class="judul">
-                        Sistem <br> Perpustakaan <br> Digital
-                    </h3>
+<div class="background">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-content">
+
+            <div class="left-box">
+                <div class="logo">
+                    <img src="{{ asset('images/logoperpus.png') }}">
                 </div>
-
-                <div class="user-box">
-                    <img src="{{ asset('images/profil.png') }}" alt="{{ auth()->user()->role }}">
-                    <span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- MAIN -->
-        <div class="main">
-
-         <!-- SIDEBAR -->
-            <div class="sidebar">
-                <a href="{{ route('petugas.dashboard') }}">Dashboard</a>
-                <a href="{{ route('petugas.biodata') }}">Biodata</a>
-                <a href="{{ route('petugas.buku') }}">Data Buku</a>
-                <a href="{{ route('petugas.anggota') }}">Data Anggota</a>
-                <a href="{{ route('petugas.peminjaman') }}">Peminjaman</a>
-                <a href="{{ route('petugas.pengembalian') }}">Pengembalian</a>
-                <div class="divider"></div>
-
-
-                <div class="logout">
-                    <a href="/logout">Logout</a>
-                </div>
+                <h3 class="judul">
+                    Sistem <br> Perpustakaan <br> Digital
+                </h3>
             </div>
 
-
-            <!-- CONTENT - KUNCI! -->
-            <div class="content">
-
-                <h2>Data Pengembalian</h2>
-
-                <!-- 📥 PERMINTAAN PENGEMBALIAN -->
-                <h3 style="color:#facc15;">Permintaan Pengembalian</h3>
-
-                <table>
-                    <tr>
-                        <th>No.</th>
-                        <th>Nama</th>
-                        <th>Kelas</th>
-                        <th>Judul Buku</th>
-                        <th>Aksi</th>
-                    </tr>
-                    @forelse($permintaan as $index => $p)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $p->user->name ?? '-' }}</td>
-                            <td>{{ $p->user->kelas ?? '-' }}</td>
-                            <td style="font-weight: bold;">{{ $p->buku->title ?? '-' }}</td>
-                            <td>
-                                <form action="{{ route('petugas.pengembalian.konfirmasi', $p->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    <button type="submit">Konfirmasi</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" style="color:#94a3b8;">Tidak ada permintaan pengembalian.</td>
-                        </tr>
-                    @endforelse
-                </table>
-
-                <!-- ✅ RIWAYAT PENGEMBALIAN -->
-                <h3 style="color:#38bdf8;">Riwayat Pengembalian</h3>
-
-                <table>
-                    <tr>
-                        <th>No.</th>
-                        <th>Nama</th>
-                        <th>Kelas</th>
-                        <th>Judul Buku</th>
-                        <th>Tgl Kembali</th>
-                        <th>Status</th>
-                        <th>Denda</th>
-                    </tr>
-                    @forelse($riwayat as $index => $r)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $r->user->name ?? '-' }}</td>
-                            <td>{{ $r->user->kelas ?? '-' }}</td>
-                            <td style="font-weight: bold;">{{ $r->buku->title ?? '-' }}</td>
-                            <td>{{ $r->returned_at ?? '-' }}</td>
-                            <td><span class="status-badge">{{ ucfirst($r->status ?? '-') }}</span></td>
-                            <td class="denda">Rp {{ number_format($r->denda ?? 0, 0, ',', '.') }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" style="color:#94a3b8;">Tidak ada riwayat pengembalian.</td>
-                        </tr>
-                    @endforelse
-                </table>
-
+            <div class="user-box">
+                <img src="{{ asset('images/profil.png') }}">
+                <span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
             </div>
 
         </div>
     </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- SIDEBAR (TETAP) -->
+        <div class="sidebar">
+            <a href="{{ route('petugas.dashboard') }}">Dashboard</a>
+            <a href="{{ route('petugas.biodata') }}">Biodata</a>
+            <a href="{{ route('petugas.buku') }}">Data Buku</a>
+            <a href="{{ route('petugas.anggota') }}">Data Anggota</a>
+            <a href="{{ route('petugas.peminjaman') }}">Peminjaman</a>
+            <a href="{{ route('petugas.pengembalian') }}">Pengembalian</a>
+
+            <div class="divider"></div>
+
+            <div class="logout">
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <h2>Data Pengembalian</h2>
+            <p>Kelola permintaan dan riwayat pengembalian buku anggota perpustakaan.</p>
+
+            <!-- PERMINTAAN -->
+            <div class="section-title permintaan">Permintaan Pengembalian</div>
+
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Kelas</th>
+                    <th>Judul Buku</th>
+                    <th>Aksi</th>
+                </tr>
+
+                @forelse($permintaan as $index => $p)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $p->user->name ?? '-' }}</td>
+                    <td>{{ $p->user->kelas ?? '-' }}</td>
+                    <td><b>{{ $p->buku->title ?? '-' }}</b></td>
+                    <td>
+                        <form action="{{ route('petugas.pengembalian.konfirmasi', $p->id) }}" method="POST">
+                            @csrf
+                            <button class="btn-konfirmasi">Konfirmasi</button>
+                        </form>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" style="color:#94a3b8;">Tidak ada permintaan pengembalian.</td>
+                </tr>
+                @endforelse
+            </table>
+
+            <!-- RIWAYAT -->
+            <div class="section-title riwayat">Riwayat Pengembalian</div>
+
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Kelas</th>
+                    <th>Judul Buku</th>
+                    <th>Tanggal</th>
+                    <th>Status</th>
+                    <th>Denda</th>
+                </tr>
+
+                @forelse($riwayat as $index => $r)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $r->user->name ?? '-' }}</td>
+                    <td>{{ $r->user->kelas ?? '-' }}</td>
+                    <td><b>{{ $r->buku->title ?? '-' }}</b></td>
+                    <td>{{ $r->returned_at ?? '-' }}</td>
+                    <td><span class="status-badge">{{ ucfirst($r->status ?? '-') }}</span></td>
+                    <td class="denda">Rp {{ number_format($r->denda ?? 0, 0, ',', '.') }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="7" style="color:#94a3b8;">Tidak ada riwayat pengembalian.</td>
+                </tr>
+                @endforelse
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

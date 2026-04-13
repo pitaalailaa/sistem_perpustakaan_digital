@@ -117,7 +117,7 @@ html, body{
 }
 
 .logout a {
-  color:#f87171;
+  color:#fb0808;
   font-weight:bold;
 }
 
@@ -194,46 +194,57 @@ html, body{
   color:white;
 }
 
-/* TABLE */
-table {
+/* ================= TABLE BARU ================= */
+
+table{
   width:100%;
   border-collapse:collapse;
-  margin-top:10px;
+  margin-top:15px;
   background:#1e293b;
-  border-radius:12px;
+  border-radius:14px;
   overflow:hidden;
-  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+  border:1px solid rgba(59,130,246,0.2);
 }
 
-th, td {
-  padding:14px;
+th, td{
+  padding:14px 10px;
   text-align:center;
+  font-size:13px;
 }
 
-th {
-  background:#334155;
-  font-size:14px;
+th{
+  background:#0f172a;
+  color:#cbd5f5;
+  font-weight:600;
   text-transform:uppercase;
-  letter-spacing:0.5px;
+  letter-spacing:0.6px;
 }
 
-tr:not(:last-child) {
-  border-bottom:1px solid #475569;
+tr:not(:last-child){
+  border-bottom:1px solid #334155;
 }
 
 tr:hover{
   background:#273449;
 }
 
-/* status */
-.status-kembali{
-  color:#38bdf8;
+/* STATUS */
+.status-badge{
+  padding:5px 10px;
+  border-radius:8px;
+  font-size:11px;
   font-weight:bold;
 }
 
+.status-kembali{
+  background:rgba(56,189,248,0.2);
+  color:#38bdf8;
+}
+
 .status-pinjam{
+  background:rgba(250,204,21,0.2);
   color:#facc15;
-  font-weight:bold;
 }
 
 </style>
@@ -241,53 +252,52 @@ tr:hover{
 
 <body>
 
-    <div class="background">
+<div class="background">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-content">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-content">
 
-      <!-- KIRI -->
-      <div class="left-box">
-        <div class="logo">
-          <img src="{{ asset('images/logoperpus.png') }}" alt="Logo">
-        </div>
-
-        <h3 class="judul">
-          Sistem <br>
-          Perpustakaan <br>
-          Digital
-        </h3>
+    <div class="left-box">
+      <div class="logo">
+        <img src="{{ asset('images/logoperpus.png') }}">
       </div>
 
-      <!-- KANAN -->
-      <div class="user-box">
-        <img src="{{ asset('images/profil.png') }}" alt="{{ auth()->user()->role }}">
-        <span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
-      </div>
-
+      <h3 class="judul">
+        Sistem <br> Perpustakaan <br> Digital
+      </h3>
     </div>
-  </div>
 
-  <!-- MAIN -->
-  <div class="main">
+    <div class="user-box">
+      <img src="{{ asset('images/profil.png') }}">
+      <span>{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
 
 <!-- SIDEBAR -->
-    <div class="sidebar">
-      <a href="{{ route('kepala.dashboard') }}">Dashboard</a>
-      <a href="{{ route('kepala.anggota') }}">Data Anggota</a>
-      <a href="{{ route('kepala.petugas') }}">Data Petugas</a>
-      <a href="{{ route('kepala.buku') }}">Data Buku</a>
-      <a href="{{ route('kepala.laporan') }}">Laporan</a>
-     <a href="{{ route('kepala.biodata') }}" class="active">Biodata</a>
-      <div class="divider"></div>
-      <div class="logout">
-        <a href="/logout">Logout</a>
-      </div>
-    </div>
+<div class="sidebar">
+  <a href="{{ route('kepala.dashboard') }}">Dashboard</a>
+  <a href="{{ route('kepala.anggota') }}">Data Anggota</a>
+  <a href="{{ route('kepala.petugas') }}">Data Petugas</a>
+  <a href="{{ route('kepala.buku') }}">Data Buku</a>
+  <a href="{{ route('kepala.laporan') }}">Laporan</a>
+  <a href="{{ route('kepala.biodata') }}">Biodata</a>
+
+  <div class="divider"></div>
+
+  <div class="logout">
+    <a href="/logout">Logout</a>
+  </div>
+</div>
 
 <!-- CONTENT -->
 <div class="content">
+
   <h2>Dashboard Kepala Perpustakaan</h2>
   <p>Selamat datang, {{ auth()->user()->name }}. Di sini Anda dapat memantau statistik utama perpustakaan.</p>
 
@@ -330,17 +340,25 @@ tr:hover{
       <tr>
         <td>{{ $peminjaman->user->name ?? '-' }}</td>
         <td>{{ $peminjaman->user->kelas ?? '-' }}</td>
-        <td>{{ $peminjaman->buku->judul ?? '-' }}</td>
+        <td style="font-weight:600;">{{ $peminjaman->buku->judul ?? '-' }}</td>
         <td>{{ $peminjaman->borrowed_at ?? '-' }}</td>
         <td>{{ $peminjaman->due_date ?? '-' }}</td>
-        <td style="color: {{ $peminjaman->status === 'dikembalikan' ? '#38bdf8' : '#facc15' }};">{{ ucfirst($peminjaman->status) }}</td>
+        <td>
+          <span class="status-badge {{ $peminjaman->status === 'dikembalikan' ? 'status-kembali' : 'status-pinjam' }}">
+            {{ ucfirst($peminjaman->status) }}
+          </span>
+        </td>
       </tr>
     @empty
-      <tr><td colspan="6">Belum ada peminjaman.</td></tr>
+      <tr>
+        <td colspan="6" style="color:#94a3b8;">Belum ada peminjaman.</td>
+      </tr>
     @endforelse
   </table>
+
 </div>
 </div>
 </div>
+
 </body>
 </html>

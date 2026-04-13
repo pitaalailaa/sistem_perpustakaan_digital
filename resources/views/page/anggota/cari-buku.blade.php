@@ -39,17 +39,14 @@
             padding: 0 20px;
         }
 
-        /* KIRI (LOGO + JUDUL) */
         .left-box {
             display: flex;
             align-items: center;
             gap: 5px;
-            /* 🔥 mepet ke logo */
         }
 
         .logo img {
             width: 90px;
-            height: auto;
         }
 
         .judul {
@@ -59,7 +56,6 @@
             margin: 0;
         }
 
-        /* USER */
         .user-box {
             display: flex;
             align-items: center;
@@ -104,13 +100,11 @@
             background: #335077;
         }
 
-        /* divider */
         .divider {
             border-top: 1px solid #475569;
             margin: 440px 10px;
         }
 
-        /* logout bawah */
         .logout {
             position: absolute;
             bottom: 2px;
@@ -119,14 +113,14 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #ff0505;
             font-weight: bold;
         }
 
+        /* CONTENT */
         .content {
             flex: 1;
             padding: 20px 40px;
-            /* kasih space dikit biar ga nempel */
             color: white;
             display: flex;
             flex-direction: column;
@@ -134,14 +128,24 @@
             padding-bottom: 60px;
         }
 
-        .cari-buku-title {
+        /* HEADER HALAMAN */
+        .page-header {
             text-align: center;
-            margin-bottom: 25px;
-            font-size: 26px;
-            font-weight: bold;
-            color: #3b82f6;
+            margin-bottom: 30px;
         }
 
+        .page-header h2 {
+            color: #3b82f6;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        /* SEARCH */
         .search-form {
             display: flex;
             gap: 15px;
@@ -163,10 +167,8 @@
 
         /* GRID BUKU */
         .book-grid {
-            width: 100%;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            /* lebih gede */
             gap: 25px;
         }
 
@@ -178,16 +180,14 @@
             padding: 22px;
             border-radius: 16px;
             min-height: 190px;
-            transition: all 0.3s ease;
+            transition: 0.3s;
         }
 
-        /* HOVER EFFECT */
         .book-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
 
-        /* GAMBAR */
         .book-card img {
             width: 120px;
             height: 170px;
@@ -195,64 +195,58 @@
             object-fit: cover;
         }
 
-        /* TEXT */
         .book-title {
             font-weight: bold;
             font-size: 20px;
-            margin-bottom: 4px;
         }
 
         .book-author {
             font-size: 15px;
             color: #cbd5f5;
-            margin-bottom: 4px;
         }
 
         /* STATUS */
-        .status {
-            font-size: 15px;
-            margin-top: 5px;
-            margin-bottom: 8px;
+        .available {
+            color: #22c55e;
         }
 
-        /* BUTTON AREA */
-        .book-card div>div:last-child {
+        .not-available {
+            color: #ef4444;
+        }
+
+        /* BUTTON */
+        .btn-area {
             display: flex;
             gap: 10px;
             margin-top: 10px;
         }
 
-        /* BUTTON */
         .btn-small {
             padding: 8px 14px;
-            border: none;
             border-radius: 8px;
             font-size: 14px;
+            border: none;
             cursor: pointer;
         }
 
-        /* DETAIL */
-        .btn-small[href] {
-            background: #6c757d;
-            color: white;
+        .btn-detail {
+            background: #64748b;
+            color: rgb(14, 14, 14);
             text-decoration: none;
         }
 
-        /* PINJAM */
         .btn-pinjam {
             background: #3b82f6;
             color: white;
         }
 
-        .inline-form {
-            display: inline;
-            margin: 0;
+        button[disabled] {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
-        /* DISABLED */
-        button[disabled] {
-            opacity: 0.8;
-            cursor: not-allowed;
+        .inline-form {
+            display: inline;
         }
     </style>
 </head>
@@ -300,16 +294,19 @@
             <!-- CONTENT -->
             <div class="content">
 
-                <div class="cari-buku-title">Cari Buku</div>
+                <div class="page-header">
+                    <h2>Katalog Buku</h2>
+                    <p>Cari dan temukan buku yang ingin kamu baca atau pinjam dari perpustakaan.</p>
+                </div>
 
                 @if (session('success'))
-                    <div style="background:#14532d;color:#dcfce7;padding:12px 16px;border-radius:10px;margin-bottom:16px;">
+                    <div style="background:#14532d;color:#dcfce7;padding:12px;border-radius:10px;margin-bottom:15px;">
                         {{ session('success') }}
                     </div>
                 @endif
 
                 @if (session('error'))
-                    <div style="background:#7f1d1d;color:#fee2e2;padding:12px 16px;border-radius:10px;margin-bottom:16px;">
+                    <div style="background:#7f1d1d;color:#fee2e2;padding:12px;border-radius:10px;margin-bottom:15px;">
                         {{ session('error') }}
                     </div>
                 @endif
@@ -353,7 +350,7 @@
                                     @elseif($isOutOfStock)
                                         <span class="not-available">Tidak Tersedia</span>
                                     @elseif($isLimitReached)
-                                        <span class="not-available">Batas 2 Buku Tercapai</span>
+                                        <span class="not-available">Batas 2 Buku</span>
                                     @else
                                         <span class="available">Tersedia</span>
                                     @endif
@@ -366,13 +363,14 @@
                                     </a>
 
                                     @if ($pinjam)
-                                        <button class="btn-small btn-disabled" disabled>Buku Ini Sedang Dipinjam</button>
+                                        <button class="btn-small" disabled>Dipinjam</button>
                                     @elseif($isOutOfStock)
-                                        <button class="btn-small btn-disabled" disabled>Tidak Tersedia</button>
+                                        <button class="btn-small" disabled>Tidak Tersedia</button>
                                     @elseif($isLimitReached)
-                                        <button class="btn-small btn-disabled" disabled>Batas 2 Buku</button>
+                                        <button class="btn-small" disabled>Batas 2 Buku</button>
                                     @else
-                                        <form method="POST" action="{{ route('buku.pinjam', $buku->id) }}" class="inline-form">
+                                        <form method="POST" action="{{ route('buku.pinjam', $buku->id) }}"
+                                            class="inline-form">
                                             @csrf
                                             <button type="submit" class="btn-small btn-pinjam">Pinjam</button>
                                         </form>

@@ -124,17 +124,18 @@
         }
 
         /* ===== CONTENT (DETAIL BUKU) ===== */
-        
- .container {
-    width: 700px;
-    background: #1e293b;
-    border-radius: 12px;
-    padding: 60px 60px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    height: fit-content;
 
-    margin: 40px auto; /* 🔥 INI KUNCINYA (center + turun dikit) */
-}
+        .container {
+            width: 700px;
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 60px 60px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            height: fit-content;
+
+            margin: 40px auto;
+            /* 🔥 INI KUNCINYA (center + turun dikit) */
+        }
 
         /* Judul */
         .title {
@@ -174,22 +175,23 @@
             color: #f8fafc;
         }
 
-       .label {
-    color: #94a3b8;
-    font-weight: 600;
-    font-size: 15px;
-}
+        .label {
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 15px;
+        }
 
-.info p {
-    font-size: 16px;
-    color: #f1f5f9; /* lebih terang */
-}
+        .info p {
+            font-size: 16px;
+            color: #f1f5f9;
+            /* lebih terang */
+        }
 
         /* Garis */
         hr {
             border: none;
-            border-top: 1px solid #334155;
-            margin: 25px 0;
+            border-top: 3px solid #334155;
+            margin: 16px 0;
         }
 
         /* Deskripsi */
@@ -197,7 +199,7 @@
             font-weight: bold;
             margin-bottom: 10px;
             color: #f1f5f9;
-            font-size: 26px;
+            font-size: 24px;
         }
 
         .desc {
@@ -215,7 +217,7 @@
         .back-btn a {
             display: inline-block;
             padding: 10px 20px;
-            background: #334155;
+            background: #025ad6;
             color: #e2e8f0;
             text-decoration: none;
             border-radius: 8px;
@@ -268,30 +270,30 @@
                 </div>
             </div>
 
-          <!-- CONTENT -->
-<div class="container">
-    <div class="title">Detail Buku</div>
+            <!-- CONTENT -->
+            <div class="container">
+                <div class="title">Detail Buku</div>
 
-    <div class="content">
-        <img src="{{ asset('images/' . $buku->cover) }}" alt="cover" class="book-img">
+                <div class="content">
+                    <img src="{{ asset('images/' . $buku->cover) }}" alt="cover" class="book-img">
 
-        <div class="info">
-            <h2>{{ $buku->judul }}</h2>
-            <p><span class="label">Penulis:</span> {{ $buku->penulis }}</p>
-            <p><span class="label">Penerbit:</span> {{ $buku->penerbit }}</p>
-            <p><span class="label">Tahun Terbit:</span> {{ $buku->tahun }}</p>
-            <p><span class="label">Kategori:</span> {{ $buku->kategori }}</p>
-        </div>
-    </div>
+                    <div class="info">
+                        <h2>{{ $buku->judul }}</h2>
+                        <p><span class="label">Penulis:</span> {{ $buku->penulis }}</p>
+                        <p><span class="label">Penerbit:</span> {{ $buku->penerbit }}</p>
+                        <p><span class="label">Tahun Terbit:</span> {{ $buku->tahun }}</p>
+                        <p><span class="label">Kategori:</span> {{ $buku->kategori }}</p>
+                    </div>
+                </div>
 
-    <hr>
+                <hr>
 
-    <div class="desc-title">Deskripsi:</div>
-    <div class="desc">
-        {{ $buku->deskripsi }}
-    </div>
+                <div class="desc-title">Sinopsis:</div>
+                <div class="desc">
+                    {{ $buku->deskripsi }}
+                </div>
 
-    <div class="back-btn">
-        <a href="{{ route('buku') }}">Kembali</a>
-    </div>
-</div>
+                <div class="back-btn">
+                    <a href="{{ route('buku') }}">Kembali</a>
+                </div>
+            </div>

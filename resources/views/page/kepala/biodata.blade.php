@@ -45,7 +45,6 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            /* 🔥 mepet ke logo */
         }
 
         .logo img {
@@ -105,14 +104,10 @@
             background: #335077;
         }
 
-        .sidebar a.active {
-            background: #3b82f6;
-        }
-
         /* divider */
         .divider {
             border-top: 1px solid #475569;
-            margin: 388px 2px;
+            margin: 390px 10px;
         }
 
         /* logout bawah */
@@ -124,7 +119,7 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #fb0808;
             font-weight: bold;
         }
 
@@ -293,7 +288,7 @@
                         </div>
                     </div>
 
-                    <div class="profile-title">📊 Profil Kepala</div>
+                    <div class="profile-title"> Profil Kepala Perpustakaan</div>
 
                     <div class="profile-info">
 

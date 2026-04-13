@@ -109,7 +109,7 @@
         }
 
         .logout a {
-            color: #f87171;
+            color: #fe0606;
             font-weight: bold;
         }
 

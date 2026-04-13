@@ -423,3 +423,4 @@ public function updateBuku(Request $request, $id)
         return back()->with('success', 'Pengembalian berhasil');
     }
 }
+

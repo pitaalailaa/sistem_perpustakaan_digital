@@ -149,21 +149,44 @@
             margin: 5px;
         }
 
-        .btn-edit {
-            background: #1d4ed8;
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-        }
+       /* BUTTON AKSI */
+.btn-edit,
+.btn-hapus {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.2s;
+}
 
-        .btn-hapus {
-            background: #dc2626;
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-        }
+.btn-edit {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.btn-hapus {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-hapus:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+td:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* 🔥 jarak antar tombol */
+}
 
         /* TABLE */
         table {
@@ -248,15 +271,19 @@
             outline: none;
             border: 1px solid #3b82f6;
         }
+.btn-save {
+    background: #22c55e;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    margin-left: 6px;
+}
 
-        .modal-content button {
-            padding: 10px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
+.btn-save:hover {
+    background: #16a34a;
+}
         .close {
             color: #aaa;
             float: right;
@@ -350,20 +377,20 @@
                             <td>{{ $book->stock ?? 0 }}</td>
                             <td>{{ $book->status }}</td>
                             <td>
-                                <a href="{{ route('petugas.buku.edit', $book->id) }}">
-                                    <button class="btn-edit">✏️</button>
-                                </a>
+                               
+                                 <a href="{{ route('petugas.buku.edit', $book->id) }}">
+            <button class="btn-edit">Edit</button>
+        </a>
 
-                                <form action="{{ route('petugas.buku.destroy', $book->id) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn-hapus">🗑️</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
+        <form action="{{ route('petugas.buku.destroy', $book->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button class="btn-hapus">Hapus</button>
+        </form>
+    </td>
+</tr>
+@endforeach
+</table>
 
                 <!-- TABLE KATEGORI -->
                 <h3 style="margin-top:40px;">Data Kategori</h3>
@@ -375,26 +402,31 @@
                         <th>Aksi</th>
                     </tr>
 
-                    @foreach ($kategoris as $i => $k)
-                        <tr>
-                            <td>{{ $i + 1 }}</td>
-                            <td>
-                                <form action="{{ route('kategori.update', $k->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <input type="text" name="name" value="{{ $k->name }}">
-                                    <button class="btn-edit">✔️</button>
-                                </form>
-                            </td>
-                            <td>
-                                <form action="{{ route('kategori.destroy', $k->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn-hapus">🗑️</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
+                   @foreach ($kategoris as $i => $k)
+<tr>
+    <td>{{ $i + 1 }}</td>
+
+    <td>
+        <form action="{{ route('kategori.update', $k->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+
+            <input type="text" name="name" value="{{ $k->name }}" class="table-input">
+
+            <button type="submit" class="btn-save">Simpan</button>
+        </form>
+    </td>
+
+    <td>
+        <form action="{{ route('kategori.destroy', $k->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit" class="btn-hapus">Hapus</button>
+        </form>
+    </td>
+</tr>
+@endforeach
                 </table>
 
             </div>
